@@ -5,6 +5,7 @@ A comprehensive Telegram Mini App for managing liquidity in the tgBTC protocol. 
 ## 🚀 Features
 
 ### 1. Liquidity Provider (LP) Interface
+
 - **Wallet Integration**: Connect using TON Connect
 - **Token Selection**: Choose from tgBTC, TON, USDT, USDC and other supported tokens
 - **Smart Deposits**: View estimated APY and rewards before depositing
@@ -12,6 +13,7 @@ A comprehensive Telegram Mini App for managing liquidity in the tgBTC protocol. 
 - **Real-time Estimates**: See projected earnings based on current rates
 
 ### 2. LP Dashboard
+
 - **Portfolio Overview**: Complete view of all liquidity positions
 - **Position Details**: Track deposits, allocations, and earned rewards
 - **Lock Management**: View lock expiry dates and extend positions
@@ -19,6 +21,7 @@ A comprehensive Telegram Mini App for managing liquidity in the tgBTC protocol. 
 - **Performance Metrics**: Track APY and portfolio growth
 
 ### 3. Protocol Metrics
+
 - **Total Value Locked (TVL)**: Real-time protocol statistics
 - **Slippage Analytics**: Before/after comparison showing protocol efficiency
 - **Pool Distribution**: Visual breakdown of liquidity across DEXs
@@ -26,6 +29,7 @@ A comprehensive Telegram Mini App for managing liquidity in the tgBTC protocol. 
 - **Interactive Charts**: TVL trends, slippage comparisons, and pool distributions
 
 ### 4. Smart Alerts & Notifications
+
 - **Yield Opportunities**: Notifications for high-APY pools
 - **Position Management**: Alerts for idle tokens and expiring locks
 - **Rebalancing Updates**: Real-time notifications of portfolio optimizations
@@ -33,6 +37,7 @@ A comprehensive Telegram Mini App for managing liquidity in the tgBTC protocol. 
 - **Smart Recommendations**: AI-powered suggestions for portfolio optimization
 
 ### 5. Governance & Settings
+
 - **Risk Profile**: Choose between Conservative, Balanced, or Aggressive strategies
 - **Governance Participation**: View and vote on protocol proposals
 - **Vote Delegation**: Delegate voting power to trusted stewards
@@ -60,11 +65,13 @@ A comprehensive Telegram Mini App for managing liquidity in the tgBTC protocol. 
 ## 🔧 Installation & Setup
 
 1. **Install Dependencies**
+
    ```bash
    npm install
    ```
 
 2. **Start Development Server**
+
    ```bash
    npm run dev
    ```
@@ -77,12 +84,14 @@ A comprehensive Telegram Mini App for managing liquidity in the tgBTC protocol. 
 ## 🎯 Key Benefits
 
 ### For Liquidity Providers:
+
 - **Maximized Yields**: Intelligent rebalancing across multiple DEXs
 - **Reduced Slippage**: Protocol optimization reduces trading costs by 60%+
 - **Flexible Lock Periods**: Choose commitment level based on risk tolerance
 - **Real-time Monitoring**: Track performance and optimize positions
 
 ### For the Protocol:
+
 - **Increased TVL**: User-friendly interface attracts more liquidity
 - **Community Engagement**: Built-in governance participation
 - **Transparency**: Real-time metrics build trust
@@ -91,6 +100,7 @@ A comprehensive Telegram Mini App for managing liquidity in the tgBTC protocol. 
 ## 📊 Protocol Metrics Dashboard
 
 The app provides comprehensive insights into:
+
 - **TVL Growth**: Track total value locked over time
 - **DEX Performance**: Compare slippage across different exchanges
 - **Pool Health**: Monitor individual pool performance
@@ -113,6 +123,7 @@ The app provides comprehensive insights into:
 ## 📱 Telegram Integration
 
 The app is specifically designed as a Telegram Mini App with:
+
 - **Native Feel**: Matches Telegram's design language
 - **Haptic Feedback**: Enhanced interaction through device vibrations
 - **Theme Synchronization**: Automatic theme matching with Telegram
