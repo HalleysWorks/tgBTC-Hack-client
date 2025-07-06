@@ -10,6 +10,7 @@ import {
   Globe,
   HelpCircle,
 } from 'lucide-react';
+import { useTheme } from '../contexts/ThemeContext';
 
 const riskProfiles = [
   {
@@ -87,6 +88,7 @@ const stewards = [
 ];
 
 export default function SettingsPanel() {
+  const { theme, toggleTheme } = useTheme();
   const [riskProfile, setRiskProfile] = useState('balanced');
   const [notifications, setNotifications] = useState({
     opportunities: true,
@@ -94,7 +96,6 @@ export default function SettingsPanel() {
     governance: true,
     security: true,
   });
-  const [theme, setTheme] = useState('light');
   const [language, setLanguage] = useState('en');
   const [delegatedSteward, setDelegatedSteward] = useState(stewards[0].id);
 
@@ -106,46 +107,48 @@ export default function SettingsPanel() {
   };
 
   return (
-    <div className='p-4 space-y-6'>
-      <div className='text-center mb-6'>
-        <h2 className='text-2xl font-bold text-gray-800 mb-2'>Settings</h2>
-        <p className='text-gray-600'>
+    <div className='p-6 max-w-4xl mx-auto space-y-8'>
+      <div className='text-center mb-8'>
+        <h2 className='text-3xl font-bold text-gray-900 dark:text-white mb-3'>
+          Settings
+        </h2>
+        <p className='text-gray-600 dark:text-gray-400 text-lg'>
           Customize your liquidity protocol experience
         </p>
       </div>
 
       {/* Risk Profile */}
-      <div className='bg-white rounded-xl p-6 shadow-sm'>
-        <h3 className='text-lg font-semibold text-gray-800 mb-4'>
+      <div className='bg-white dark:bg-gray-900 rounded-2xl p-8 shadow-sm border border-gray-200 dark:border-gray-800'>
+        <h3 className='text-xl font-semibold text-gray-900 dark:text-white mb-6'>
           Risk Tolerance
         </h3>
-        <div className='space-y-3'>
+        <div className='space-y-4'>
           {riskProfiles.map((profile) => {
             const IconComponent = profile.icon;
             return (
               <button
                 key={profile.id}
                 onClick={() => setRiskProfile(profile.id)}
-                className={`w-full p-4 rounded-lg border-2 transition-all ${
+                className={`w-full p-6 rounded-xl border-2 transition-all duration-200 ${
                   riskProfile === profile.id
-                    ? 'border-blue-500 bg-blue-50'
-                    : 'border-gray-200 hover:border-gray-300'
+                    ? 'border-blue-500 dark:border-blue-400 bg-blue-50 dark:bg-blue-950/50'
+                    : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 bg-white dark:bg-gray-900'
                 }`}
               >
-                <div className='flex items-center space-x-3'>
+                <div className='flex items-center space-x-4'>
                   <IconComponent
-                    size={24}
+                    size={32}
                     className={
                       riskProfile === profile.id
-                        ? 'text-blue-600'
-                        : 'text-gray-600'
+                        ? 'text-blue-600 dark:text-blue-400'
+                        : 'text-gray-600 dark:text-gray-400'
                     }
                   />
                   <div className='text-left'>
-                    <div className='font-semibold text-gray-800'>
+                    <div className='font-semibold text-gray-900 dark:text-white text-lg'>
                       {profile.label}
                     </div>
-                    <div className='text-sm text-gray-600'>
+                    <div className='text-sm text-gray-600 dark:text-gray-400'>
                       {profile.description}
                     </div>
                   </div>
@@ -206,40 +209,43 @@ export default function SettingsPanel() {
       </div>
 
       {/* Appearance */}
-      <div className='bg-white rounded-xl p-6 shadow-sm'>
-        <h3 className='text-lg font-semibold text-gray-800 mb-4'>Appearance</h3>
-        <div className='space-y-4'>
+      <div className='bg-white dark:bg-gray-900 rounded-2xl p-8 shadow-sm border border-gray-200 dark:border-gray-800'>
+        <h3 className='text-xl font-semibold text-gray-900 dark:text-white mb-6'>
+          Appearance
+        </h3>
+        <div className='space-y-6'>
           <div className='flex items-center justify-between'>
-            <div className='flex items-center space-x-3'>
+            <div className='flex items-center space-x-4'>
               {theme === 'light' ? (
-                <Sun size={20} className='text-yellow-500' />
+                <Sun size={24} className='text-yellow-500' />
               ) : (
-                <Moon size={20} className='text-blue-500' />
+                <Moon size={24} className='text-blue-500' />
               )}
               <div>
-                <div className='font-medium text-gray-800'>Theme</div>
-                <div className='text-sm text-gray-600'>
+                <div className='font-medium text-gray-900 dark:text-white text-lg'>
+                  Theme
+                </div>
+                <div className='text-sm text-gray-600 dark:text-gray-400'>
                   Choose your preferred appearance
                 </div>
               </div>
             </div>
-            <select
-              value={theme}
-              onChange={(e) => setTheme(e.target.value)}
-              className='px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
+            <button
+              onClick={toggleTheme}
+              className='px-6 py-3 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white rounded-xl hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors font-medium'
             >
-              <option value='light'>Light</option>
-              <option value='dark'>Dark</option>
-              <option value='auto'>Auto</option>
-            </select>
+              Toggle {theme === 'light' ? 'Dark' : 'Light'}
+            </button>
           </div>
 
           <div className='flex items-center justify-between'>
-            <div className='flex items-center space-x-3'>
-              <Globe size={20} className='text-gray-600' />
+            <div className='flex items-center space-x-4'>
+              <Globe size={24} className='text-gray-600 dark:text-gray-400' />
               <div>
-                <div className='font-medium text-gray-800'>Language</div>
-                <div className='text-sm text-gray-600'>
+                <div className='font-medium text-gray-900 dark:text-white text-lg'>
+                  Language
+                </div>
+                <div className='text-sm text-gray-600 dark:text-gray-400'>
                   Select your preferred language
                 </div>
               </div>
@@ -247,7 +253,7 @@ export default function SettingsPanel() {
             <select
               value={language}
               onChange={(e) => setLanguage(e.target.value)}
-              className='px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
+              className='px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white'
             >
               <option value='en'>English</option>
               <option value='ru'>Русский</option>

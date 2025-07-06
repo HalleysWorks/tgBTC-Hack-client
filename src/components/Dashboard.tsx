@@ -54,37 +54,41 @@ export default function Dashboard() {
   );
 
   return (
-    <div className='p-4 space-y-6'>
-      <div className='text-center mb-6'>
-        <h2 className='text-2xl font-bold text-gray-800 mb-2'>LP Dashboard</h2>
-        <p className='text-gray-600'>
+    <div className='p-6 max-w-6xl mx-auto space-y-8'>
+      <div className='text-center mb-8'>
+        <h2 className='text-3xl font-bold text-gray-900 dark:text-white mb-3'>
+          LP Dashboard
+        </h2>
+        <p className='text-gray-600 dark:text-gray-400 text-lg'>
           Track your liquidity positions and rewards
         </p>
       </div>
 
       {/* Portfolio Overview */}
-      <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-        <div className='bg-white rounded-xl p-6 shadow-sm'>
-          <h3 className='text-lg font-semibold text-gray-800 mb-2'>
+      <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+        <div className='bg-white dark:bg-gray-900 rounded-2xl p-8 shadow-sm border border-gray-200 dark:border-gray-800'>
+          <h3 className='text-sm font-medium text-gray-500 dark:text-gray-400 mb-3'>
             Total Portfolio Value
           </h3>
-          <p className='text-3xl font-bold text-blue-600'>
+          <p className='text-4xl font-bold text-gray-900 dark:text-white mb-2'>
             ${totalValue.toLocaleString()}
           </p>
-          <p className='text-sm text-green-600 mt-1 flex items-center'>
-            <TrendingUp size={14} className='mr-1' />
+          <p className='text-sm text-green-600 dark:text-green-400 flex items-center'>
+            <TrendingUp size={16} className='mr-1' />
             +5.2% this month
           </p>
         </div>
 
-        <div className='bg-white rounded-xl p-6 shadow-sm'>
-          <h3 className='text-lg font-semibold text-gray-800 mb-2'>
+        <div className='bg-white dark:bg-gray-900 rounded-2xl p-8 shadow-sm border border-gray-200 dark:border-gray-800'>
+          <h3 className='text-sm font-medium text-gray-500 dark:text-gray-400 mb-3'>
             Total Rewards Earned
           </h3>
-          <p className='text-3xl font-bold text-green-600'>
+          <p className='text-4xl font-bold text-gray-900 dark:text-white mb-2'>
             ${totalRewards.toFixed(2)}
           </p>
-          <p className='text-sm text-gray-600 mt-1'>Across all positions</p>
+          <p className='text-sm text-gray-600 dark:text-gray-400'>
+            Across all positions
+          </p>
         </div>
       </div>
 
