@@ -1,12 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { TonConnectUIProvider } from '@tonconnect/ui-react';
-import {
-  Wallet,
-  BarChart3,
-  Settings,
-  Bell,
-  Home as HomeIcon,
-} from 'lucide-react';
+import { Wallet, BarChart3, Settings, Home as HomeIcon } from 'lucide-react';
 import Header from './components/Header.tsx';
 import LiquidityProvider from './components/LiquidityProvider.tsx';
 import Dashboard from './components/Dashboard.tsx';
@@ -14,6 +8,7 @@ import Metrics from './components/Metrics.tsx';
 import Alerts from './components/Alerts.tsx';
 import SettingsPanel from './components/SettingsPanel.tsx';
 import { ThemeProvider } from './contexts/ThemeContext.tsx';
+import { initializeTelegramWebApp } from './hooks/useTelegramWebApp.ts';
 
 type Tab = 'home' | 'lp' | 'dashboard' | 'metrics' | 'alerts' | 'settings';
 
@@ -21,6 +16,11 @@ function App() {
   const [activeTab, setActiveTab] = useState<Tab>('home');
 
   const manifestUrl = '/tonconnect-manifest.json';
+
+  useEffect(() => {
+    // Initialize Telegram WebApp
+    initializeTelegramWebApp();
+  }, []);
 
   return (
     <ThemeProvider>

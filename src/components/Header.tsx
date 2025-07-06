@@ -9,8 +9,8 @@ export default function Header() {
     <header className='bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 px-6 py-4'>
       <div className='flex justify-between items-center max-w-6xl mx-auto'>
         <div className='flex items-center'>
-          <div className='w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl mr-4 flex items-center justify-center'>
-            <span className='text-white font-bold text-sm'>tg</span>
+          <div className='w-10 h-10 bg-gradient-to-r from-pink-500 to-purple-500 rounded-xl mr-4 flex items-center justify-center'>
+            <span className='text-white font-bold text-sm'>₿</span>
           </div>
           <h1 className='text-xl font-bold text-gray-900 dark:text-white'>
             tgBTC LP
