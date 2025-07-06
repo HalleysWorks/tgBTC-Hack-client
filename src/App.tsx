@@ -88,7 +88,7 @@ function App() {
                 <span className='text-xs mt-1 font-medium'>Metrics</span>
               </button>
 
-              <button
+              {/* <button
                 onClick={() => setActiveTab('alerts')}
                 className={`flex flex-col items-center py-2 px-3 rounded-xl transition-all duration-200 ${
                   activeTab === 'alerts'
@@ -98,7 +98,7 @@ function App() {
               >
                 <Bell size={20} />
                 <span className='text-xs mt-1 font-medium'>Alerts</span>
-              </button>
+              </button> */}
 
               <button
                 onClick={() => setActiveTab('settings')}
