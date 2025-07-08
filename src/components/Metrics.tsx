@@ -73,73 +73,102 @@ export default function Metrics() {
   const [timeframe, setTimeframe] = useState('7d');
 
   return (
-    <div className='p-4 space-y-6'>
+    <div className='p-4 space-y-6 max-w-6xl mx-auto'>
       <div className='text-center mb-6'>
-        <h2 className='text-2xl font-bold text-gray-800 mb-2'>
+        <h2 className='text-2xl font-bold text-gray-900 dark:text-white mb-2'>
           Protocol Metrics
         </h2>
-        <p className='text-gray-600'>
+        <p className='text-gray-600 dark:text-gray-400'>
           Real-time insights into protocol performance
         </p>
       </div>
 
       {/* Key Metrics */}
       <div className='grid grid-cols-2 md:grid-cols-4 gap-4'>
-        <div className='bg-white rounded-xl p-4 shadow-sm'>
+        <div className='bg-white dark:bg-gray-900 rounded-xl p-4 shadow-sm border border-gray-200 dark:border-gray-800'>
           <div className='flex items-center justify-between'>
             <div>
-              <p className='text-sm text-gray-600'>Total TVL</p>
-              <p className='text-2xl font-bold text-blue-600'>$2.4M</p>
+              <p className='text-sm text-gray-600 dark:text-gray-400'>
+                Total TVL
+              </p>
+              <p className='text-2xl font-bold text-blue-600 dark:text-blue-400'>
+                $2.4M
+              </p>
             </div>
-            <DollarSign className='text-blue-500' size={24} />
+            <DollarSign
+              className='text-blue-500 dark:text-blue-400'
+              size={24}
+            />
           </div>
-          <p className='text-sm text-green-600 mt-1 flex items-center'>
+          <p className='text-sm text-green-600 dark:text-green-400 mt-1 flex items-center'>
             <TrendingUp size={14} className='mr-1' />
             +12.5%
           </p>
         </div>
 
-        <div className='bg-white rounded-xl p-4 shadow-sm'>
+        <div className='bg-white dark:bg-gray-900 rounded-xl p-4 shadow-sm border border-gray-200 dark:border-gray-800'>
           <div className='flex items-center justify-between'>
             <div>
-              <p className='text-sm text-gray-600'>Avg Slippage</p>
-              <p className='text-2xl font-bold text-green-600'>0.4%</p>
+              <p className='text-sm text-gray-600 dark:text-gray-400'>
+                Avg Slippage
+              </p>
+              <p className='text-2xl font-bold text-green-600 dark:text-green-400'>
+                0.4%
+              </p>
             </div>
-            <Activity className='text-green-500' size={24} />
+            <Activity
+              className='text-green-500 dark:text-green-400'
+              size={24}
+            />
           </div>
-          <p className='text-sm text-green-600 mt-1 flex items-center'>
+          <p className='text-sm text-green-600 dark:text-green-400 mt-1 flex items-center'>
             <TrendingDown size={14} className='mr-1' />
             -60% vs before
           </p>
         </div>
 
-        <div className='bg-white rounded-xl p-4 shadow-sm'>
+        <div className='bg-white dark:bg-gray-900 rounded-xl p-4 shadow-sm border border-gray-200 dark:border-gray-800'>
           <div className='flex items-center justify-between'>
             <div>
-              <p className='text-sm text-gray-600'>Active Pools</p>
-              <p className='text-2xl font-bold text-purple-600'>15</p>
+              <p className='text-sm text-gray-600 dark:text-gray-400'>
+                Active Pools
+              </p>
+              <p className='text-2xl font-bold text-purple-600 dark:text-purple-400'>
+                15
+              </p>
             </div>
-            <RefreshCw className='text-purple-500' size={24} />
+            <RefreshCw
+              className='text-purple-500 dark:text-purple-400'
+              size={24}
+            />
           </div>
-          <p className='text-sm text-blue-600 mt-1'>3 DEXs</p>
+          <p className='text-sm text-blue-600 dark:text-blue-400 mt-1'>
+            3 DEXs
+          </p>
         </div>
 
-        <div className='bg-white rounded-xl p-4 shadow-sm'>
+        <div className='bg-white dark:bg-gray-900 rounded-xl p-4 shadow-sm border border-gray-200 dark:border-gray-800'>
           <div className='flex items-center justify-between'>
             <div>
-              <p className='text-sm text-gray-600'>Rebalances</p>
-              <p className='text-2xl font-bold text-orange-600'>24</p>
+              <p className='text-sm text-gray-600 dark:text-gray-400'>
+                Rebalances
+              </p>
+              <p className='text-2xl font-bold text-orange-600 dark:text-orange-400'>
+                24
+              </p>
             </div>
-            <Clock className='text-orange-500' size={24} />
+            <Clock className='text-orange-500 dark:text-orange-400' size={24} />
           </div>
-          <p className='text-sm text-gray-600 mt-1'>Last 24h</p>
+          <p className='text-sm text-gray-600 dark:text-gray-400 mt-1'>
+            Last 24h
+          </p>
         </div>
       </div>
 
       {/* TVL Chart */}
-      <div className='bg-white rounded-xl p-6 shadow-sm'>
+      <div className='bg-white dark:bg-gray-900 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-800'>
         <div className='flex items-center justify-between mb-4'>
-          <h3 className='text-lg font-semibold text-gray-800'>
+          <h3 className='text-lg font-semibold text-gray-900 dark:text-white'>
             Total Value Locked
           </h3>
           <div className='flex space-x-2'>
@@ -149,8 +178,8 @@ export default function Metrics() {
                 onClick={() => setTimeframe(period)}
                 className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
                   timeframe === period
-                    ? 'bg-blue-500 text-white'
-                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                    ? 'bg-blue-500 dark:bg-blue-600 text-white'
+                    : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'
                 }`}
               >
                 {period}
@@ -183,8 +212,8 @@ export default function Metrics() {
       </div>
 
       {/* Slippage Comparison */}
-      <div className='bg-white rounded-xl p-6 shadow-sm'>
-        <h3 className='text-lg font-semibold text-gray-800 mb-4'>
+      <div className='bg-white dark:bg-gray-900 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-800'>
+        <h3 className='text-lg font-semibold text-gray-900 dark:text-white mb-4'>
           Slippage Reduction by DEX
         </h3>
         <ResponsiveContainer width='100%' height={300}>
@@ -200,8 +229,8 @@ export default function Metrics() {
       </div>
 
       {/* Pool Distribution */}
-      <div className='bg-white rounded-xl p-6 shadow-sm'>
-        <h3 className='text-lg font-semibold text-gray-800 mb-4'>
+      <div className='bg-white dark:bg-gray-900 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-800'>
+        <h3 className='text-lg font-semibold text-gray-900 dark:text-white mb-4'>
           Liquidity Distribution
         </h3>
         <div className='flex flex-col md:flex-row items-center'>
@@ -228,16 +257,20 @@ export default function Metrics() {
             {poolDistribution.map((pool, index) => (
               <div
                 key={index}
-                className='flex items-center justify-between p-2 bg-gray-50 rounded'
+                className='flex items-center justify-between p-2 bg-gray-50 dark:bg-gray-800 rounded'
               >
                 <div className='flex items-center'>
                   <div
                     className='w-4 h-4 rounded-full mr-2'
                     style={{ backgroundColor: pool.color }}
                   ></div>
-                  <span className='font-medium'>{pool.name}</span>
+                  <span className='font-medium text-gray-900 dark:text-white'>
+                    {pool.name}
+                  </span>
                 </div>
-                <span className='text-gray-600'>{pool.value}%</span>
+                <span className='text-gray-600 dark:text-gray-400'>
+                  {pool.value}%
+                </span>
               </div>
             ))}
           </div>
@@ -245,23 +278,27 @@ export default function Metrics() {
       </div>
 
       {/* Recent Rebalancing Events */}
-      <div className='bg-white rounded-xl p-6 shadow-sm'>
-        <h3 className='text-lg font-semibold text-gray-800 mb-4'>
+      <div className='bg-white dark:bg-gray-900 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-800'>
+        <h3 className='text-lg font-semibold text-gray-900 dark:text-white mb-4'>
           Recent Rebalancing Events
         </h3>
         <div className='space-y-3'>
           {rebalancingEvents.map((event, index) => (
             <div
               key={index}
-              className='flex items-start space-x-3 p-3 bg-gray-50 rounded-lg'
+              className='flex items-start space-x-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg'
             >
-              <div className='w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0'></div>
+              <div className='w-2 h-2 bg-blue-500 dark:bg-blue-400 rounded-full mt-2 flex-shrink-0'></div>
               <div className='flex-1'>
-                <div className='font-medium text-gray-800'>{event.action}</div>
-                <div className='text-sm text-gray-600 mt-1'>
+                <div className='font-medium text-gray-900 dark:text-white'>
+                  {event.action}
+                </div>
+                <div className='text-sm text-gray-600 dark:text-gray-400 mt-1'>
                   <span className='font-medium'>Reason:</span> {event.reason}
                 </div>
-                <div className='text-xs text-gray-500 mt-1'>{event.time}</div>
+                <div className='text-xs text-gray-500 dark:text-gray-500 mt-1'>
+                  {event.time}
+                </div>
               </div>
             </div>
           ))}

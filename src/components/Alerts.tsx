@@ -116,59 +116,59 @@ export default function Alerts() {
   const getPriorityColor = (priority: string) => {
     switch (priority) {
       case 'high':
-        return 'bg-red-100 text-red-800 border-red-200';
+        return 'bg-red-100 dark:bg-red-950/50 text-red-800 dark:text-red-200 border-red-200 dark:border-red-800';
       case 'medium':
-        return 'bg-yellow-100 text-yellow-800 border-yellow-200';
+        return 'bg-yellow-100 dark:bg-yellow-950/50 text-yellow-800 dark:text-yellow-200 border-yellow-200 dark:border-yellow-800';
       case 'low':
-        return 'bg-green-100 text-green-800 border-green-200';
+        return 'bg-green-100 dark:bg-green-950/50 text-green-800 dark:text-green-200 border-green-200 dark:border-green-800';
       default:
-        return 'bg-gray-100 text-gray-800 border-gray-200';
+        return 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 border-gray-200 dark:border-gray-700';
     }
   };
 
   const getIconColor = (color: string) => {
     switch (color) {
       case 'green':
-        return 'text-green-600';
+        return 'text-green-600 dark:text-green-400';
       case 'orange':
-        return 'text-orange-600';
+        return 'text-orange-600 dark:text-orange-400';
       case 'blue':
-        return 'text-blue-600';
+        return 'text-blue-600 dark:text-blue-400';
       case 'red':
-        return 'text-red-600';
+        return 'text-red-600 dark:text-red-400';
       default:
-        return 'text-gray-600';
+        return 'text-gray-600 dark:text-gray-400';
     }
   };
 
   return (
-    <div className='p-4 space-y-6'>
+    <div className='p-4 space-y-6 max-w-6xl mx-auto'>
       <div className='flex items-center justify-between'>
         <div>
-          <h2 className='text-2xl font-bold text-gray-800 mb-2'>
+          <h2 className='text-2xl font-bold text-gray-900 dark:text-white mb-2'>
             Alerts & Notifications
           </h2>
-          <p className='text-gray-600'>
+          <p className='text-gray-600 dark:text-gray-400'>
             Stay informed about your liquidity positions
           </p>
         </div>
         <button
           onClick={() => setShowSettings(!showSettings)}
-          className='p-2 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors'
+          className='p-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors'
         >
           <Settings size={20} />
         </button>
       </div>
 
       {showSettings && (
-        <div className='bg-white rounded-xl p-6 shadow-sm'>
+        <div className='bg-white dark:bg-gray-900 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-800'>
           <div className='flex items-center justify-between mb-4'>
-            <h3 className='text-lg font-semibold text-gray-800'>
+            <h3 className='text-lg font-semibold text-gray-900 dark:text-white'>
               Alert Settings
             </h3>
             <button
               onClick={() => setShowSettings(false)}
-              className='p-1 text-gray-500 hover:text-gray-700'
+              className='p-1 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
             >
               <X size={20} />
             </button>
@@ -177,20 +177,22 @@ export default function Alerts() {
             {settings.map((setting) => (
               <div
                 key={setting.id}
-                className='flex items-center justify-between p-3 bg-gray-50 rounded-lg'
+                className='flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg'
               >
                 <div className='flex-1'>
-                  <div className='font-medium text-gray-800'>
+                  <div className='font-medium text-gray-900 dark:text-white'>
                     {setting.label}
                   </div>
-                  <div className='text-sm text-gray-600 mt-1'>
+                  <div className='text-sm text-gray-600 dark:text-gray-400 mt-1'>
                     {setting.description}
                   </div>
                 </div>
                 <button
                   onClick={() => toggleSetting(setting.id)}
                   className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                    setting.enabled ? 'bg-blue-600' : 'bg-gray-200'
+                    setting.enabled
+                      ? 'bg-blue-600 dark:bg-blue-500'
+                      : 'bg-gray-200 dark:bg-gray-700'
                   }`}
                 >
                   <span
@@ -208,20 +210,25 @@ export default function Alerts() {
       {/* Active Alerts */}
       <div className='space-y-4'>
         <div className='flex items-center justify-between'>
-          <h3 className='text-lg font-semibold text-gray-800'>Active Alerts</h3>
-          <div className='flex items-center text-sm text-gray-600'>
+          <h3 className='text-lg font-semibold text-gray-900 dark:text-white'>
+            Active Alerts
+          </h3>
+          <div className='flex items-center text-sm text-gray-600 dark:text-gray-400'>
             <Bell size={16} className='mr-1' />
             {activeAlerts.length} alerts
           </div>
         </div>
 
         {activeAlerts.length === 0 ? (
-          <div className='bg-white rounded-xl p-8 shadow-sm text-center'>
-            <Bell size={48} className='mx-auto text-gray-400 mb-4' />
-            <h3 className='text-lg font-semibold text-gray-800 mb-2'>
+          <div className='bg-white dark:bg-gray-900 rounded-xl p-8 shadow-sm border border-gray-200 dark:border-gray-800 text-center'>
+            <Bell
+              size={48}
+              className='mx-auto text-gray-400 dark:text-gray-500 mb-4'
+            />
+            <h3 className='text-lg font-semibold text-gray-900 dark:text-white mb-2'>
               No Active Alerts
             </h3>
-            <p className='text-gray-600'>
+            <p className='text-gray-600 dark:text-gray-400'>
               You're all caught up! We'll notify you when there are new
               opportunities.
             </p>
@@ -233,17 +240,17 @@ export default function Alerts() {
               return (
                 <div
                   key={alert.id}
-                  className='bg-white rounded-xl p-4 shadow-sm'
+                  className='bg-white dark:bg-gray-900 rounded-xl p-4 shadow-sm border border-gray-200 dark:border-gray-800'
                 >
                   <div className='flex items-start justify-between'>
                     <div className='flex items-start space-x-3'>
                       <div
                         className={`p-2 rounded-full ${
                           alert.color === 'green'
-                            ? 'bg-green-100'
+                            ? 'bg-green-100 dark:bg-green-950/50'
                             : alert.color === 'orange'
-                            ? 'bg-orange-100'
-                            : 'bg-blue-100'
+                            ? 'bg-orange-100 dark:bg-orange-950/50'
+                            : 'bg-blue-100 dark:bg-blue-950/50'
                         }`}
                       >
                         <IconComponent
@@ -253,7 +260,7 @@ export default function Alerts() {
                       </div>
                       <div className='flex-1'>
                         <div className='flex items-center space-x-2 mb-1'>
-                          <h4 className='font-semibold text-gray-800'>
+                          <h4 className='font-semibold text-gray-900 dark:text-white'>
                             {alert.title}
                           </h4>
                           <span
@@ -264,20 +271,20 @@ export default function Alerts() {
                             {alert.priority}
                           </span>
                         </div>
-                        <p className='text-gray-600 text-sm mb-2'>
+                        <p className='text-gray-600 dark:text-gray-400 text-sm mb-2'>
                           {alert.message}
                         </p>
                         <div className='flex items-center justify-between'>
-                          <span className='text-xs text-gray-500'>
+                          <span className='text-xs text-gray-500 dark:text-gray-500'>
                             {alert.time}
                           </span>
                           <div className='flex space-x-2'>
-                            <button className='px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full hover:bg-blue-200 transition-colors'>
+                            <button className='px-3 py-1 bg-blue-100 dark:bg-blue-950/50 text-blue-800 dark:text-blue-200 text-sm rounded-full hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-colors'>
                               {alert.action}
                             </button>
                             <button
                               onClick={() => dismissAlert(alert.id)}
-                              className='px-3 py-1 bg-gray-100 text-gray-800 text-sm rounded-full hover:bg-gray-200 transition-colors'
+                              className='px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 text-sm rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors'
                             >
                               Dismiss
                             </button>
@@ -294,42 +301,42 @@ export default function Alerts() {
       </div>
 
       {/* Recommendations */}
-      <div className='bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-6 border border-blue-200'>
-        <h3 className='text-lg font-semibold text-gray-800 mb-4'>
+      <div className='bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-950/50 dark:to-purple-950/50 rounded-xl p-6 border border-blue-200 dark:border-blue-800'>
+        <h3 className='text-lg font-semibold text-gray-900 dark:text-white mb-4'>
           Smart Recommendations
         </h3>
         <div className='space-y-3'>
           <div className='flex items-start space-x-3'>
-            <div className='w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0'></div>
+            <div className='w-2 h-2 bg-blue-500 dark:bg-blue-400 rounded-full mt-2 flex-shrink-0'></div>
             <div>
-              <div className='font-medium text-gray-800'>
+              <div className='font-medium text-gray-900 dark:text-white'>
                 Optimize Your Portfolio
               </div>
-              <div className='text-sm text-gray-600 mt-1'>
+              <div className='text-sm text-gray-600 dark:text-gray-400 mt-1'>
                 Consider moving 20% of your USDT to tgBTC/TON pair for +2.3% APY
                 increase
               </div>
             </div>
           </div>
           <div className='flex items-start space-x-3'>
-            <div className='w-2 h-2 bg-purple-500 rounded-full mt-2 flex-shrink-0'></div>
+            <div className='w-2 h-2 bg-purple-500 dark:bg-purple-400 rounded-full mt-2 flex-shrink-0'></div>
             <div>
-              <div className='font-medium text-gray-800'>
+              <div className='font-medium text-gray-900 dark:text-white'>
                 Lock Extension Available
               </div>
-              <div className='text-sm text-gray-600 mt-1'>
+              <div className='text-sm text-gray-600 dark:text-gray-400 mt-1'>
                 Extend your TON lock for 30 days to earn 1.5x multiplier on
                 rewards
               </div>
             </div>
           </div>
           <div className='flex items-start space-x-3'>
-            <div className='w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0'></div>
+            <div className='w-2 h-2 bg-green-500 dark:bg-green-400 rounded-full mt-2 flex-shrink-0'></div>
             <div>
-              <div className='font-medium text-gray-800'>
+              <div className='font-medium text-gray-900 dark:text-white'>
                 New Pool Opportunity
               </div>
-              <div className='text-sm text-gray-600 mt-1'>
+              <div className='text-sm text-gray-600 dark:text-gray-400 mt-1'>
                 New USDC/TON pool launched with 15% APY - perfect for stable
                 yield
               </div>

@@ -160,8 +160,8 @@ export default function SettingsPanel() {
       </div>
 
       {/* Notifications */}
-      <div className='bg-white rounded-xl p-6 shadow-sm'>
-        <h3 className='text-lg font-semibold text-gray-800 mb-4'>
+      <div className='bg-white dark:bg-gray-900 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-800'>
+        <h3 className='text-lg font-semibold text-gray-900 dark:text-white mb-4'>
           Notifications
         </h3>
         <div className='space-y-4'>
@@ -173,15 +173,15 @@ export default function SettingsPanel() {
           ).map(([key, enabled]) => (
             <div
               key={key}
-              className='flex items-center justify-between p-3 bg-gray-50 rounded-lg'
+              className='flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg'
             >
               <div className='flex items-center space-x-3'>
-                <Bell size={20} className='text-gray-600' />
+                <Bell size={20} className='text-gray-600 dark:text-gray-400' />
                 <div>
-                  <div className='font-medium text-gray-800 capitalize'>
+                  <div className='font-medium text-gray-900 dark:text-white capitalize'>
                     {key}
                   </div>
-                  <div className='text-sm text-gray-600'>
+                  <div className='text-sm text-gray-600 dark:text-gray-400'>
                     {key === 'opportunities' &&
                       'High yield opportunities and alerts'}
                     {key === 'rebalancing' &&
@@ -194,7 +194,9 @@ export default function SettingsPanel() {
               <button
                 onClick={() => toggleNotification(key)}
                 className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                  enabled ? 'bg-blue-600' : 'bg-gray-200'
+                  enabled
+                    ? 'bg-blue-600 dark:bg-blue-500'
+                    : 'bg-gray-200 dark:bg-gray-700'
                 }`}
               >
                 <span
@@ -265,44 +267,51 @@ export default function SettingsPanel() {
       </div>
 
       {/* Governance */}
-      <div className='bg-white rounded-xl p-6 shadow-sm'>
-        <h3 className='text-lg font-semibold text-gray-800 mb-4'>Governance</h3>
+      <div className='bg-white dark:bg-gray-900 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-800'>
+        <h3 className='text-lg font-semibold text-gray-900 dark:text-white mb-4'>
+          Governance
+        </h3>
 
         {/* Active Proposals */}
         <div className='mb-6'>
-          <h4 className='font-medium text-gray-800 mb-3'>Active Proposals</h4>
+          <h4 className='font-medium text-gray-900 dark:text-white mb-3'>
+            Active Proposals
+          </h4>
           <div className='space-y-3'>
             {governanceProposals
               .filter((p) => p.status === 'active')
               .map((proposal) => (
-                <div key={proposal.id} className='p-3 bg-gray-50 rounded-lg'>
+                <div
+                  key={proposal.id}
+                  className='p-3 bg-gray-50 dark:bg-gray-800 rounded-lg'
+                >
                   <div className='flex items-start justify-between mb-2'>
                     <div className='flex-1'>
-                      <div className='font-medium text-gray-800'>
+                      <div className='font-medium text-gray-900 dark:text-white'>
                         {proposal.title}
                       </div>
-                      <div className='text-sm text-gray-600 mt-1'>
+                      <div className='text-sm text-gray-600 dark:text-gray-400 mt-1'>
                         {proposal.description}
                       </div>
                     </div>
-                    <div className='text-sm text-gray-500 ml-4'>
+                    <div className='text-sm text-gray-500 dark:text-gray-500 ml-4'>
                       {proposal.timeLeft}
                     </div>
                   </div>
                   <div className='flex items-center space-x-4 mt-3'>
                     <div className='flex items-center space-x-2'>
-                      <div className='w-2 h-2 bg-green-500 rounded-full'></div>
-                      <span className='text-sm text-gray-600'>
+                      <div className='w-2 h-2 bg-green-500 dark:bg-green-400 rounded-full'></div>
+                      <span className='text-sm text-gray-600 dark:text-gray-400'>
                         For: {proposal.votes.for}
                       </span>
                     </div>
                     <div className='flex items-center space-x-2'>
-                      <div className='w-2 h-2 bg-red-500 rounded-full'></div>
-                      <span className='text-sm text-gray-600'>
+                      <div className='w-2 h-2 bg-red-500 dark:bg-red-400 rounded-full'></div>
+                      <span className='text-sm text-gray-600 dark:text-gray-400'>
                         Against: {proposal.votes.against}
                       </span>
                     </div>
-                    <button className='ml-auto px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full hover:bg-blue-200 transition-colors'>
+                    <button className='ml-auto px-3 py-1 bg-blue-100 dark:bg-blue-950/50 text-blue-800 dark:text-blue-200 text-sm rounded-full hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-colors'>
                       <Vote size={14} className='inline mr-1' />
                       Vote
                     </button>
@@ -314,7 +323,9 @@ export default function SettingsPanel() {
 
         {/* Delegate Votes */}
         <div>
-          <h4 className='font-medium text-gray-800 mb-3'>Delegate Votes</h4>
+          <h4 className='font-medium text-gray-900 dark:text-white mb-3'>
+            Delegate Votes
+          </h4>
           <div className='space-y-2'>
             {stewards.map((steward) => (
               <button
@@ -322,25 +333,25 @@ export default function SettingsPanel() {
                 onClick={() => setDelegatedSteward(steward.id)}
                 className={`w-full p-3 rounded-lg border-2 transition-all ${
                   delegatedSteward === steward.id
-                    ? 'border-purple-500 bg-purple-50'
-                    : 'border-gray-200 hover:border-gray-300'
+                    ? 'border-purple-500 dark:border-purple-400 bg-purple-50 dark:bg-purple-950/50'
+                    : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600'
                 }`}
               >
                 <div className='flex items-center justify-between'>
                   <div className='text-left'>
-                    <div className='font-medium text-gray-800 flex items-center'>
+                    <div className='font-medium text-gray-900 dark:text-white flex items-center'>
                       {steward.name}
                       {steward.trusted && (
-                        <span className='ml-2 px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full'>
+                        <span className='ml-2 px-2 py-1 bg-green-100 dark:bg-green-950/50 text-green-800 dark:text-green-200 text-xs rounded-full'>
                           Trusted
                         </span>
                       )}
                     </div>
-                    <div className='text-sm text-gray-600'>
+                    <div className='text-sm text-gray-600 dark:text-gray-400'>
                       {steward.description}
                     </div>
                   </div>
-                  <div className='text-sm text-gray-500'>
+                  <div className='text-sm text-gray-500 dark:text-gray-500'>
                     {steward.votes} votes
                   </div>
                 </div>
@@ -351,34 +362,49 @@ export default function SettingsPanel() {
       </div>
 
       {/* Help & Support */}
-      <div className='bg-white rounded-xl p-6 shadow-sm'>
-        <h3 className='text-lg font-semibold text-gray-800 mb-4'>
+      <div className='bg-white dark:bg-gray-900 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-800'>
+        <h3 className='text-lg font-semibold text-gray-900 dark:text-white mb-4'>
           Help & Support
         </h3>
         <div className='space-y-3'>
-          <button className='w-full p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors flex items-center'>
-            <HelpCircle size={20} className='text-gray-600 mr-3' />
+          <button className='w-full p-3 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors flex items-center'>
+            <HelpCircle
+              size={20}
+              className='text-gray-600 dark:text-gray-400 mr-3'
+            />
             <div className='text-left'>
-              <div className='font-medium text-gray-800'>Documentation</div>
-              <div className='text-sm text-gray-600'>
+              <div className='font-medium text-gray-900 dark:text-white'>
+                Documentation
+              </div>
+              <div className='text-sm text-gray-600 dark:text-gray-400'>
                 Learn how to use the protocol
               </div>
             </div>
           </button>
-          <button className='w-full p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors flex items-center'>
-            <Users size={20} className='text-gray-600 mr-3' />
+          <button className='w-full p-3 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors flex items-center'>
+            <Users
+              size={20}
+              className='text-gray-600 dark:text-gray-400 mr-3'
+            />
             <div className='text-left'>
-              <div className='font-medium text-gray-800'>Community</div>
-              <div className='text-sm text-gray-600'>
+              <div className='font-medium text-gray-900 dark:text-white'>
+                Community
+              </div>
+              <div className='text-sm text-gray-600 dark:text-gray-400'>
                 Join our Telegram group
               </div>
             </div>
           </button>
-          <button className='w-full p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors flex items-center'>
-            <Shield size={20} className='text-gray-600 mr-3' />
+          <button className='w-full p-3 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors flex items-center'>
+            <Shield
+              size={20}
+              className='text-gray-600 dark:text-gray-400 mr-3'
+            />
             <div className='text-left'>
-              <div className='font-medium text-gray-800'>Security</div>
-              <div className='text-sm text-gray-600'>
+              <div className='font-medium text-gray-900 dark:text-white'>
+                Security
+              </div>
+              <div className='text-sm text-gray-600 dark:text-gray-400'>
                 Report security issues
               </div>
             </div>

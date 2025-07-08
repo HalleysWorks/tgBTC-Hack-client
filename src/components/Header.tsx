@@ -1,8 +1,15 @@
 import { TonConnectButton } from '@tonconnect/ui-react';
-import { Moon, Sun } from 'lucide-react';
+import { Moon, Sun, Settings, BarChart3, Bell } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 
-export default function Header() {
+type Tab = 'home' | 'lp' | 'dashboard' | 'metrics' | 'alerts' | 'settings';
+
+interface HeaderProps {
+  activeTab: Tab;
+  setActiveTab: (tab: Tab) => void;
+}
+
+export default function Header({ activeTab, setActiveTab }: HeaderProps) {
   const { theme, toggleTheme } = useTheme();
 
   return (
@@ -17,18 +24,58 @@ export default function Header() {
           </h1>
         </div>
 
-        <div className='flex items-center space-x-4'>
+        <div className='flex items-center space-x-2'>
+          {/* Quick Access Buttons */}
+          <button
+            onClick={() => setActiveTab('metrics')}
+            className={`p-2 rounded-xl transition-colors ${
+              activeTab === 'metrics'
+                ? 'bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400'
+                : 'bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-400'
+            }`}
+            aria-label='View metrics'
+          >
+            <BarChart3 size={18} />
+          </button>
+
+          <button
+            onClick={() => setActiveTab('alerts')}
+            className={`p-2 rounded-xl transition-colors relative ${
+              activeTab === 'alerts'
+                ? 'bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400'
+                : 'bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-400'
+            }`}
+            aria-label='View alerts'
+          >
+            <Bell size={18} />
+            {/* Notification indicator */}
+            <span className='absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full'></span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('settings')}
+            className={`p-2 rounded-xl transition-colors ${
+              activeTab === 'settings'
+                ? 'bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400'
+                : 'bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-400'
+            }`}
+            aria-label='Settings'
+          >
+            <Settings size={18} />
+          </button>
+
           <button
             onClick={toggleTheme}
             className='p-2 rounded-xl bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors'
             aria-label='Toggle theme'
           >
             {theme === 'light' ? (
-              <Moon size={20} className='text-gray-600 dark:text-gray-400' />
+              <Moon size={18} className='text-gray-600 dark:text-gray-400' />
             ) : (
-              <Sun size={20} className='text-gray-600 dark:text-gray-400' />
+              <Sun size={18} className='text-gray-600 dark:text-gray-400' />
             )}
           </button>
+
           <TonConnectButton />
         </div>
       </div>

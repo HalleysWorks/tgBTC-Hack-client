@@ -93,39 +93,39 @@ export default function Dashboard() {
       </div>
 
       {/* Portfolio Positions */}
-      <div className='bg-white rounded-xl p-6 shadow-sm'>
-        <h3 className='text-lg font-semibold text-gray-800 mb-4'>
+      <div className='bg-white dark:bg-gray-900 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-800'>
+        <h3 className='text-lg font-semibold text-gray-900 dark:text-white mb-4'>
           Your Positions
         </h3>
         <div className='space-y-4'>
           {portfolioData.map((position) => (
             <div
               key={position.token}
-              className='border border-gray-200 rounded-lg p-4'
+              className='border border-gray-200 dark:border-gray-700 rounded-lg p-4 bg-white dark:bg-gray-800'
             >
               <div className='flex items-center justify-between'>
                 <div className='flex items-center'>
                   <div className='w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full mr-3'></div>
                   <div>
-                    <div className='font-semibold text-gray-800 flex items-center'>
+                    <div className='font-semibold text-gray-900 dark:text-white flex items-center'>
                       {position.token}
                       {position.isLocked && (
-                        <div className='ml-2 px-2 py-1 bg-purple-100 text-purple-800 text-xs rounded-full flex items-center'>
+                        <div className='ml-2 px-2 py-1 bg-purple-100 dark:bg-purple-950/50 text-purple-800 dark:text-purple-200 text-xs rounded-full flex items-center'>
                           <Clock size={12} className='mr-1' />
                           Locked
                         </div>
                       )}
                     </div>
-                    <div className='text-sm text-gray-600'>
+                    <div className='text-sm text-gray-600 dark:text-gray-400'>
                       {position.deposited} tokens
                     </div>
                   </div>
                 </div>
                 <div className='text-right'>
-                  <div className='font-semibold text-gray-800'>
+                  <div className='font-semibold text-gray-900 dark:text-white'>
                     {position.value}
                   </div>
-                  <div className='text-sm text-green-600'>
+                  <div className='text-sm text-green-600 dark:text-green-400'>
                     +{position.rewards} rewards
                   </div>
                 </div>
@@ -134,7 +134,7 @@ export default function Dashboard() {
               <div className='mt-3 flex justify-between items-center'>
                 <button
                   onClick={() => toggleDetails(position.token)}
-                  className='text-blue-600 hover:text-blue-700 text-sm flex items-center'
+                  className='text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 text-sm flex items-center'
                 >
                   {showDetails[position.token] ? (
                     <EyeOff size={16} />
@@ -146,39 +146,49 @@ export default function Dashboard() {
                   </span>
                 </button>
                 <div className='flex space-x-2'>
-                  <button className='px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full hover:bg-blue-200 transition-colors'>
+                  <button className='px-3 py-1 bg-blue-100 dark:bg-blue-950/50 text-blue-800 dark:text-blue-200 text-sm rounded-full hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-colors'>
                     Add More
                   </button>
-                  <button className='px-3 py-1 bg-gray-100 text-gray-800 text-sm rounded-full hover:bg-gray-200 transition-colors'>
+                  <button className='px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 text-sm rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors'>
                     Withdraw
                   </button>
                 </div>
               </div>
 
               {showDetails[position.token] && (
-                <div className='mt-4 p-3 bg-gray-50 rounded-lg'>
+                <div className='mt-4 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg'>
                   <div className='space-y-2 text-sm'>
                     <div className='flex justify-between'>
-                      <span className='text-gray-600'>Allocation:</span>
-                      <span className='text-gray-800'>
+                      <span className='text-gray-600 dark:text-gray-400'>
+                        Allocation:
+                      </span>
+                      <span className='text-gray-900 dark:text-white'>
                         {position.allocation}
                       </span>
                     </div>
                     <div className='flex justify-between'>
-                      <span className='text-gray-600'>APY:</span>
-                      <span className='text-green-600 font-medium'>8.5%</span>
+                      <span className='text-gray-600 dark:text-gray-400'>
+                        APY:
+                      </span>
+                      <span className='text-green-600 dark:text-green-400 font-medium'>
+                        8.5%
+                      </span>
                     </div>
                     {position.isLocked && position.lockExpiry && (
                       <div className='flex justify-between'>
-                        <span className='text-gray-600'>Lock Expires:</span>
-                        <span className='text-purple-600 font-medium'>
+                        <span className='text-gray-600 dark:text-gray-400'>
+                          Lock Expires:
+                        </span>
+                        <span className='text-purple-600 dark:text-purple-400 font-medium'>
                           {position.lockExpiry}
                         </span>
                       </div>
                     )}
                     <div className='flex justify-between'>
-                      <span className='text-gray-600'>Daily Rewards:</span>
-                      <span className='text-green-600 font-medium'>
+                      <span className='text-gray-600 dark:text-gray-400'>
+                        Daily Rewards:
+                      </span>
+                      <span className='text-green-600 dark:text-green-400 font-medium'>
                         $
                         {(
                           parseFloat(position.rewards.replace('$', '')) / 30
@@ -194,26 +204,46 @@ export default function Dashboard() {
       </div>
 
       {/* Quick Actions */}
-      <div className='bg-white rounded-xl p-6 shadow-sm'>
-        <h3 className='text-lg font-semibold text-gray-800 mb-4'>
+      <div className='bg-white dark:bg-gray-900 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-800'>
+        <h3 className='text-lg font-semibold text-gray-900 dark:text-white mb-4'>
           Quick Actions
         </h3>
         <div className='grid grid-cols-2 gap-4'>
-          <button className='flex items-center justify-center p-4 bg-green-50 rounded-lg border border-green-200 hover:bg-green-100 transition-colors'>
-            <TrendingUp className='mr-2' size={20} />
-            <span className='font-medium'>Compound Rewards</span>
+          <button className='flex items-center justify-center p-4 bg-green-50 dark:bg-green-950/50 rounded-lg border border-green-200 dark:border-green-800 hover:bg-green-100 dark:hover:bg-green-900/50 transition-colors'>
+            <TrendingUp
+              className='mr-2 text-green-600 dark:text-green-400'
+              size={20}
+            />
+            <span className='font-medium text-gray-900 dark:text-white'>
+              Compound Rewards
+            </span>
           </button>
-          <button className='flex items-center justify-center p-4 bg-blue-50 rounded-lg border border-blue-200 hover:bg-blue-100 transition-colors'>
-            <Wallet className='mr-2' size={20} />
-            <span className='font-medium'>Claim Rewards</span>
+          <button className='flex items-center justify-center p-4 bg-blue-50 dark:bg-blue-950/50 rounded-lg border border-blue-200 dark:border-blue-800 hover:bg-blue-100 dark:hover:bg-blue-900/50 transition-colors'>
+            <Wallet
+              className='mr-2 text-blue-600 dark:text-blue-400'
+              size={20}
+            />
+            <span className='font-medium text-gray-900 dark:text-white'>
+              Claim Rewards
+            </span>
           </button>
-          <button className='flex items-center justify-center p-4 bg-purple-50 rounded-lg border border-purple-200 hover:bg-purple-100 transition-colors'>
-            <Clock className='mr-2' size={20} />
-            <span className='font-medium'>Extend Lock</span>
+          <button className='flex items-center justify-center p-4 bg-purple-50 dark:bg-purple-950/50 rounded-lg border border-purple-200 dark:border-purple-800 hover:bg-purple-100 dark:hover:bg-purple-900/50 transition-colors'>
+            <Clock
+              className='mr-2 text-purple-600 dark:text-purple-400'
+              size={20}
+            />
+            <span className='font-medium text-gray-900 dark:text-white'>
+              Extend Lock
+            </span>
           </button>
-          <button className='flex items-center justify-center p-4 bg-orange-50 rounded-lg border border-orange-200 hover:bg-orange-100 transition-colors'>
-            <Unlock className='mr-2' size={20} />
-            <span className='font-medium'>Emergency Withdraw</span>
+          <button className='flex items-center justify-center p-4 bg-orange-50 dark:bg-orange-950/50 rounded-lg border border-orange-200 dark:border-orange-800 hover:bg-orange-100 dark:hover:bg-orange-900/50 transition-colors'>
+            <Unlock
+              className='mr-2 text-orange-600 dark:text-orange-400'
+              size={20}
+            />
+            <span className='font-medium text-gray-900 dark:text-white'>
+              Emergency Withdraw
+            </span>
           </button>
         </div>
       </div>

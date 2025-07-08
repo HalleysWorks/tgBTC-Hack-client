@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { TonConnectUIProvider } from '@tonconnect/ui-react';
-import { Wallet, BarChart3, Settings, Home as HomeIcon } from 'lucide-react';
+import { Wallet, BarChart3, Home as HomeIcon, TrendingUp } from 'lucide-react';
 import Header from './components/Header.tsx';
 import LiquidityProvider from './components/LiquidityProvider.tsx';
 import Dashboard from './components/Dashboard.tsx';
@@ -26,10 +26,10 @@ function App() {
     <ThemeProvider>
       <TonConnectUIProvider manifestUrl={manifestUrl}>
         <div className='min-h-screen bg-gray-50 dark:bg-gray-950 transition-colors duration-300'>
-          <Header />
+          <Header activeTab={activeTab} setActiveTab={setActiveTab} />
 
           <main className='pb-20'>
-            {activeTab === 'home' && <Home />}
+            {activeTab === 'home' && <Home setActiveTab={setActiveTab} />}
             {activeTab === 'lp' && <LiquidityProvider />}
             {activeTab === 'dashboard' && <Dashboard />}
             {activeTab === 'metrics' && <Metrics />}
@@ -61,7 +61,7 @@ function App() {
                 }`}
               >
                 <Wallet size={20} />
-                <span className='text-xs mt-1 font-medium'>LP</span>
+                <span className='text-xs mt-1 font-medium'>Liquidity</span>
               </button>
 
               <button
@@ -73,43 +73,7 @@ function App() {
                 }`}
               >
                 <BarChart3 size={20} />
-                <span className='text-xs mt-1 font-medium'>Dashboard</span>
-              </button>
-
-              <button
-                onClick={() => setActiveTab('metrics')}
-                className={`flex flex-col items-center py-2 px-3 rounded-xl transition-all duration-200 ${
-                  activeTab === 'metrics'
-                    ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/50'
-                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
-                }`}
-              >
-                <BarChart3 size={20} />
-                <span className='text-xs mt-1 font-medium'>Metrics</span>
-              </button>
-
-              {/* <button
-                onClick={() => setActiveTab('alerts')}
-                className={`flex flex-col items-center py-2 px-3 rounded-xl transition-all duration-200 ${
-                  activeTab === 'alerts'
-                    ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/50'
-                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
-                }`}
-              >
-                <Bell size={20} />
-                <span className='text-xs mt-1 font-medium'>Alerts</span>
-              </button> */}
-
-              <button
-                onClick={() => setActiveTab('settings')}
-                className={`flex flex-col items-center py-2 px-3 rounded-xl transition-all duration-200 ${
-                  activeTab === 'settings'
-                    ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/50'
-                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
-                }`}
-              >
-                <Settings size={20} />
-                <span className='text-xs mt-1 font-medium'>Settings</span>
+                <span className='text-xs mt-1 font-medium'>Portfolio</span>
               </button>
             </div>
           </nav>
@@ -120,7 +84,7 @@ function App() {
 }
 
 // Home component
-function Home() {
+function Home({ setActiveTab }: { setActiveTab: (tab: Tab) => void }) {
   return (
     <div className='p-6 max-w-6xl mx-auto'>
       <div className='text-center mb-12'>
@@ -165,7 +129,10 @@ function Home() {
           Quick Actions
         </h3>
         <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-          <button className='flex items-center justify-center p-6 bg-blue-50 dark:bg-blue-950/50 rounded-xl border border-blue-200 dark:border-blue-800 hover:bg-blue-100 dark:hover:bg-blue-900/50 transition-all duration-200 group'>
+          <button
+            onClick={() => setActiveTab('lp')}
+            className='flex items-center justify-center p-6 bg-blue-50 dark:bg-blue-950/50 rounded-xl border border-blue-200 dark:border-blue-800 hover:bg-blue-100 dark:hover:bg-blue-900/50 transition-all duration-200 group'
+          >
             <Wallet
               className='mr-3 text-blue-600 dark:text-blue-400 group-hover:scale-105 transition-transform'
               size={24}
@@ -174,13 +141,16 @@ function Home() {
               Add Liquidity
             </span>
           </button>
-          <button className='flex items-center justify-center p-6 bg-purple-50 dark:bg-purple-950/50 rounded-xl border border-purple-200 dark:border-purple-800 hover:bg-purple-100 dark:hover:bg-purple-900/50 transition-all duration-200 group'>
+          <button
+            onClick={() => setActiveTab('dashboard')}
+            className='flex items-center justify-center p-6 bg-purple-50 dark:bg-purple-950/50 rounded-xl border border-purple-200 dark:border-purple-800 hover:bg-purple-100 dark:hover:bg-purple-900/50 transition-all duration-200 group'
+          >
             <BarChart3
               className='mr-3 text-purple-600 dark:text-purple-400 group-hover:scale-105 transition-transform'
               size={24}
             />
             <span className='font-medium text-gray-900 dark:text-white'>
-              View Dashboard
+              View Portfolio
             </span>
           </button>
         </div>
