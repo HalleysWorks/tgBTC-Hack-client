@@ -1,5 +1,3 @@
-import React from 'react';
-
 const UNDER_CONSTRUCTION_LIST = [
   'Metrics',
   'Alerts',
