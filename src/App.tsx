@@ -1,11 +1,16 @@
 import { useState, useEffect } from 'react';
 import { TonConnectUIProvider } from '@tonconnect/ui-react';
-import { Wallet, BarChart3, Home as HomeIcon, TrendingUp } from 'lucide-react';
+import { Wallet, BarChart3, Home as HomeIcon } from 'lucide-react';
 import Header from './components/Header.tsx';
 import LiquidityProvider from './components/LiquidityProvider.tsx';
 import Dashboard from './components/Dashboard.tsx';
 import Metrics from './components/Metrics.tsx';
 import Alerts from './components/Alerts.tsx';
+import {
+  isUnderConstruction,
+  UnderConstruction,
+  isComponentHidden,
+} from './components/UnderConstruction';
 import SettingsPanel from './components/SettingsPanel.tsx';
 import { ThemeProvider } from './contexts/ThemeContext.tsx';
 import { initializeTelegramWebApp } from './hooks/useTelegramWebApp.ts';
@@ -32,9 +37,20 @@ function App() {
             {activeTab === 'home' && <Home setActiveTab={setActiveTab} />}
             {activeTab === 'lp' && <LiquidityProvider />}
             {activeTab === 'dashboard' && <Dashboard />}
-            {activeTab === 'metrics' && <Metrics />}
-            {activeTab === 'alerts' && <Alerts />}
-            {activeTab === 'settings' && <SettingsPanel />}
+            {activeTab === 'metrics' &&
+              (isUnderConstruction('Metrics') ? (
+                <UnderConstruction name='Metrics' />
+              ) : (
+                <Metrics />
+              ))}
+            {activeTab === 'alerts' &&
+              (isUnderConstruction('Alerts') ? (
+                <UnderConstruction name='Alerts' />
+              ) : (
+                <Alerts />
+              ))}
+            {activeTab === 'settings' &&
+              (!isComponentHidden('SettingsPanel') ? <SettingsPanel /> : null)}
           </main>
 
           {/* Bottom Navigation */}

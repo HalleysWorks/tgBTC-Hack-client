@@ -1,7 +1,8 @@
 {
-  "url": "https://raw.githubusercontent.com/ton-community/tutorials/main/03-client/",
   "name": "tgBTC Liquidity Protocol",
-  "iconUrl": "https://raw.githubusercontent.com/ton-community/tutorials/main/03-client/public/vite.svg",
-  "termsOfUseUrl": "https://example.com/terms",
-  "privacyPolicyUrl": "https://example.com/privacy"
+  "description": "A protocol for providing and managing liquidity on TON DEXes.",
+  "url": "https://tgbtc-hack.netlify.app/",
+  "iconUrl": "/icon.svg",
+  "termsOfUseUrl": "https://tgbtc-hack.netlify.app/terms",
+  "privacyPolicyUrl": "https://tgbtc-hack.netlify.app/privacy"
 }

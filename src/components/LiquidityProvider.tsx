@@ -8,6 +8,7 @@ import {
   AlertCircle,
 } from 'lucide-react';
 import { useTelegramWebApp } from '../hooks/useTelegramWebApp';
+import { useTonContracts } from '../hooks/useTonContracts';
 
 const tokens = [
   {
@@ -47,6 +48,7 @@ const lockPeriods = [
 ];
 
 export default function LiquidityProvider() {
+  const { addresses, client } = useTonContracts();
   const [selectedToken, setSelectedToken] = useState(tokens[0]);
   const [amount, setAmount] = useState('');
   const [lockPeriod, setLockPeriod] = useState(lockPeriods[0]);
@@ -68,6 +70,16 @@ export default function LiquidityProvider() {
     : '0';
 
   const walletInfo = getWalletInfo();
+
+  // Example: handle add liquidity (placeholder, needs contract ABI)
+  const handleAddLiquidity = async () => {
+    if (!client || !addresses || !wallet) return;
+    // Example: use addresses.dedustPool or others as needed
+    // TODO: Replace with actual contract call logic
+    alert(
+      'This would send a transaction to the contract: ' + addresses.dedustPool
+    );
+  };
 
   return (
     <div className='p-6 max-w-4xl mx-auto space-y-8'>
@@ -293,7 +305,11 @@ export default function LiquidityProvider() {
       {/* Action Buttons - Only show if wallet is connected */}
       {wallet && (
         <div className='space-y-4'>
-          <button className='w-full bg-gradient-to-r from-pink-500 to-purple-500 text-white py-6 rounded-2xl font-semibold hover:from-pink-600 hover:to-purple-600 transition-all duration-200 flex items-center justify-center shadow-lg hover:shadow-xl'>
+          <button
+            className='w-full bg-gradient-to-r from-pink-500 to-purple-500 text-white py-6 rounded-2xl font-semibold hover:from-pink-600 hover:to-purple-600 transition-all duration-200 flex items-center justify-center shadow-lg hover:shadow-xl'
+            onClick={handleAddLiquidity}
+            disabled={!client || !addresses}
+          >
             <Plus size={24} className='mr-3' />
             Add Liquidity
           </button>
