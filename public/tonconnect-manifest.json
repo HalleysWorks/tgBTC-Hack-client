@@ -2,7 +2,7 @@
   "name": "tgBTC Liquidity Protocol",
   "description": "A protocol for providing and managing liquidity on TON DEXes.",
   "url": "https://tgbtc-hack.netlify.app/",
-  "iconUrl": "/icon.svg",
+  "iconUrl": "https://tgbtc-hack.netlify.app/icon.svg",
   "termsOfUseUrl": "https://tgbtc-hack.netlify.app/terms",
   "privacyPolicyUrl": "https://tgbtc-hack.netlify.app/privacy"
 }

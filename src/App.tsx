@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { TonConnectUIProvider } from '@tonconnect/ui-react';
 import { Wallet, BarChart3, Home as HomeIcon } from 'lucide-react';
 import Header from './components/Header.tsx';
@@ -6,6 +7,8 @@ import LiquidityProvider from './components/LiquidityProvider.tsx';
 import Dashboard from './components/Dashboard.tsx';
 import Metrics from './components/Metrics.tsx';
 import Alerts from './components/Alerts.tsx';
+import TermsOfService from './components/TermsOfService.tsx';
+import PrivacyPolicy from './components/PrivacyPolicy.tsx';
 import {
   isUnderConstruction,
   UnderConstruction,
@@ -29,73 +32,98 @@ function App() {
 
   return (
     <ThemeProvider>
-      <TonConnectUIProvider manifestUrl={manifestUrl}>
-        <div className='min-h-screen bg-gray-50 dark:bg-gray-950 transition-colors duration-300'>
-          <Header activeTab={activeTab} setActiveTab={setActiveTab} />
-
-          <main className='pb-20'>
-            {activeTab === 'home' && <Home setActiveTab={setActiveTab} />}
-            {activeTab === 'lp' && <LiquidityProvider />}
-            {activeTab === 'dashboard' && <Dashboard />}
-            {activeTab === 'metrics' &&
-              (isUnderConstruction('Metrics') ? (
-                <UnderConstruction name='Metrics' />
-              ) : (
-                <Metrics />
-              ))}
-            {activeTab === 'alerts' &&
-              (isUnderConstruction('Alerts') ? (
-                <UnderConstruction name='Alerts' />
-              ) : (
-                <Alerts />
-              ))}
-            {activeTab === 'settings' &&
-              (!isComponentHidden('SettingsPanel') ? <SettingsPanel /> : null)}
-          </main>
-
-          {/* Bottom Navigation */}
-          <nav className='fixed bottom-0 left-0 right-0 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-t border-gray-200 dark:border-gray-800 px-4 py-2'>
-            <div className='flex justify-around items-center'>
-              <button
-                onClick={() => setActiveTab('home')}
-                className={`flex flex-col items-center py-2 px-3 rounded-xl transition-all duration-200 ${
-                  activeTab === 'home'
-                    ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/50'
-                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
-                }`}
-              >
-                <HomeIcon size={20} />
-                <span className='text-xs mt-1 font-medium'>Home</span>
-              </button>
-
-              <button
-                onClick={() => setActiveTab('lp')}
-                className={`flex flex-col items-center py-2 px-3 rounded-xl transition-all duration-200 ${
-                  activeTab === 'lp'
-                    ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/50'
-                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
-                }`}
-              >
-                <Wallet size={20} />
-                <span className='text-xs mt-1 font-medium'>Liquidity</span>
-              </button>
-
-              <button
-                onClick={() => setActiveTab('dashboard')}
-                className={`flex flex-col items-center py-2 px-3 rounded-xl transition-all duration-200 ${
-                  activeTab === 'dashboard'
-                    ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/50'
-                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
-                }`}
-              >
-                <BarChart3 size={20} />
-                <span className='text-xs mt-1 font-medium'>Portfolio</span>
-              </button>
-            </div>
-          </nav>
-        </div>
-      </TonConnectUIProvider>
+      <Router>
+        <TonConnectUIProvider manifestUrl={manifestUrl}>
+          <Routes>
+            {/* Main app routes */}
+            <Route
+              path='/'
+              element={
+                <MainApp activeTab={activeTab} setActiveTab={setActiveTab} />
+              }
+            />
+            <Route path='/terms' element={<TermsOfService />} />
+            <Route path='/privacy' element={<PrivacyPolicy />} />
+          </Routes>
+        </TonConnectUIProvider>
+      </Router>
     </ThemeProvider>
+  );
+}
+
+// Main App Component (your existing app structure)
+function MainApp({
+  activeTab,
+  setActiveTab,
+}: {
+  activeTab: Tab;
+  setActiveTab: (tab: Tab) => void;
+}) {
+  return (
+    <div className='min-h-screen bg-gray-50 dark:bg-gray-950 transition-colors duration-300'>
+      <Header activeTab={activeTab} setActiveTab={setActiveTab} />
+
+      <main className='pb-20'>
+        {activeTab === 'home' && <Home setActiveTab={setActiveTab} />}
+        {activeTab === 'lp' && <LiquidityProvider />}
+        {activeTab === 'dashboard' && <Dashboard />}
+        {activeTab === 'metrics' &&
+          (isUnderConstruction('Metrics') ? (
+            <UnderConstruction name='Metrics' />
+          ) : (
+            <Metrics />
+          ))}
+        {activeTab === 'alerts' &&
+          (isUnderConstruction('Alerts') ? (
+            <UnderConstruction name='Alerts' />
+          ) : (
+            <Alerts />
+          ))}
+        {activeTab === 'settings' &&
+          (!isComponentHidden('SettingsPanel') ? <SettingsPanel /> : null)}
+      </main>
+
+      {/* Bottom Navigation */}
+      <nav className='fixed bottom-0 left-0 right-0 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-t border-gray-200 dark:border-gray-800 px-4 py-2'>
+        <div className='flex justify-around items-center'>
+          <button
+            onClick={() => setActiveTab('home')}
+            className={`flex flex-col items-center py-2 px-3 rounded-xl transition-all duration-200 ${
+              activeTab === 'home'
+                ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/50'
+                : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+            }`}
+          >
+            <HomeIcon size={20} />
+            <span className='text-xs mt-1 font-medium'>Home</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('lp')}
+            className={`flex flex-col items-center py-2 px-3 rounded-xl transition-all duration-200 ${
+              activeTab === 'lp'
+                ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/50'
+                : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+            }`}
+          >
+            <Wallet size={20} />
+            <span className='text-xs mt-1 font-medium'>Liquidity</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('dashboard')}
+            className={`flex flex-col items-center py-2 px-3 rounded-xl transition-all duration-200 ${
+              activeTab === 'dashboard'
+                ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/50'
+                : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+            }`}
+          >
+            <BarChart3 size={20} />
+            <span className='text-xs mt-1 font-medium'>Portfolio</span>
+          </button>
+        </div>
+      </nav>
+    </div>
   );
 }
 
