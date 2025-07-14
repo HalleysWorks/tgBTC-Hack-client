@@ -9,7 +9,8 @@ export function useTonContracts() {
 
   useEffect(() => {
     getContractAddresses().then(setAddresses);
-    setClient(getTonClient());
+    // Lazy load the client
+    getTonClient().then(setClient);
   }, []);
 
   return { addresses, client };
