@@ -1,1 +1,3 @@
 /*    /index.html   200
+/*    https://bridge.tonapi.io/bridge/:splat   200  
+/:splat   https://bridge.tonapi.io/bridge/:splat   200

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useTonConnectUI, useTonWallet } from '@tonconnect/ui-react';
 
 export const useTelegramWebApp = () => {
-  const [tonConnectUI] = useTonConnectUI();
+  const [tonConnectUI, setTonConnectOptions] = useTonConnectUI();
   const tonWallet = useTonWallet();
   const [isConnecting, setIsConnecting] = useState(false);
 
@@ -14,6 +14,8 @@ export const useTelegramWebApp = () => {
     if (app) {
       app.ready();
       app.expand();
+      // Override default TonConnect bridge URL to avoid CORS issues
+      setTonConnectOptions({ bridgeUrl: 'https://bridge.tonapi.io/bridge' });
     }
   }, []);
 

@@ -35,19 +35,8 @@ function App() {
       <Router>
         <TonConnectUIProvider
           manifestUrl={manifestUrl}
-          walletsListConfiguration={{
-            includeWallets: [
-              {
-                appName: 'tonkeeper',
-                name: 'Tonkeeper',
-                imageUrl: 'https://tonkeeper.com/assets/tonconnect-icon.png',
-                aboutUrl: 'https://tonkeeper.com',
-                universalLink: 'https://app.tonkeeper.com/ton-connect',
-                bridgeUrl: 'https://bridge.tonapi.io/bridge',
-                platforms: ['ios', 'android', 'chrome', 'firefox'],
-              },
-            ],
-          }}
+          // @ts-ignore: override default bridge URL to avoid CORS issues
+          connectorOptions={{ bridgeUrl: 'https://bridge.tonapi.io/bridge' }}
         >
           <Routes>
             {/* Main app routes */}

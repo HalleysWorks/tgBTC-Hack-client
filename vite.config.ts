@@ -21,6 +21,17 @@ export default defineConfig({
       external: [],
     },
   },
+  server: {
+    allowedHosts: ['6fbd9481f413.ngrok-free.app'],
+    proxy: {
+      // Proxy TON Connect bridge to avoid CORS issues in development
+      '/tonconnect-bridge': {
+        target: 'https://walletbot.me/tonconnect-bridge',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/tonconnect-bridge/, ''),
+      },
+    },
+  },
   // server: {
   //   allowedHosts: ['6fbd9481f413.ngrok-free.app'],
   // },
