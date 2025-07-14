@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { TonConnect } from '@tonconnect/sdk';
 import { TonConnectUIProvider } from '@tonconnect/ui-react';
 import { Wallet, BarChart3, Home as HomeIcon } from 'lucide-react';
 import Header from './components/Header.tsx';
@@ -20,14 +21,26 @@ import { initializeTelegramWebApp } from './hooks/useTelegramWebApp.ts';
 
 type Tab = 'home' | 'lp' | 'dashboard' | 'metrics' | 'alerts' | 'settings';
 
+const tonConnect = new TonConnect({
+  manifestUrl: '/tonconnect-manifest.json',
+});
+
 function App() {
   const [activeTab, setActiveTab] = useState<Tab>('home');
 
   const manifestUrl = '/tonconnect-manifest.json';
-
   useEffect(() => {
     // Initialize Telegram WebApp
     initializeTelegramWebApp();
+  }, []);
+
+  // Example usage of connect method with bridgeUrl
+  useEffect(() => {
+    tonConnect.connect({
+      bridgeUrl:
+        'https://153a5003-e438-41f6-b5f6-0cc4a6836029-00-15wxssg12rbb7.picard.replit.dev/',
+      universalLink: 'https://app.tonkeeper.com/ton-connect',
+    });
   }, []);
 
   return (
