@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useTonConnectUI, useTonWallet } from '@tonconnect/ui-react';
 
 export const useTelegramWebApp = () => {
-  const [tonConnectUI, setTonConnectOptions] = useTonConnectUI();
+  const [tonConnectUI] = useTonConnectUI();
   const tonWallet = useTonWallet();
   const [isConnecting, setIsConnecting] = useState(false);
 
@@ -14,8 +14,6 @@ export const useTelegramWebApp = () => {
     if (app) {
       app.ready();
       app.expand();
-      // Override default TonConnect bridge URL to avoid CORS issues
-      setTonConnectOptions({ bridgeUrl: 'https://bridge.tonapi.io/bridge' });
     }
   }, []);
 
@@ -23,13 +21,7 @@ export const useTelegramWebApp = () => {
     try {
       setIsConnecting(true);
       hapticFeedback('light');
-      // Use universal link for Telegram Mini App, modal for web
-      const isTelegram = Boolean(window.Telegram?.WebApp);
-      if (isTelegram) {
-        await tonConnectUI.connectWallet();
-      } else {
-        await tonConnectUI.openModal();
-      }
+      await tonConnectUI.openModal();
       // Success feedback will be handled by UI reactivity
     } catch (error) {
       console.error('Failed to connect wallet:', error);
