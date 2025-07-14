@@ -33,7 +33,22 @@ function App() {
   return (
     <ThemeProvider>
       <Router>
-        <TonConnectUIProvider manifestUrl={manifestUrl}>
+        <TonConnectUIProvider
+          manifestUrl={manifestUrl}
+          walletsListConfiguration={{
+            includeWallets: [
+              {
+                appName: 'tonkeeper',
+                name: 'Tonkeeper',
+                imageUrl: 'https://tonkeeper.com/assets/tonconnect-icon.png',
+                aboutUrl: 'https://tonkeeper.com',
+                universalLink: 'https://app.tonkeeper.com/ton-connect',
+                bridgeUrl: 'https://bridge.tonapi.io/bridge',
+                platforms: ['ios', 'android', 'chrome', 'firefox'],
+              },
+            ],
+          }}
+        >
           <Routes>
             {/* Main app routes */}
             <Route
