@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+  <!-- Option A: trust your self‐signed dev cert for this exact host -->
+  <domain-config cleartextTrafficPermitted="false">
+    <domain includeSubdomains="true">localhost</domain>
+    <trust-anchors>
+      <certificates src="user"/>  <!-- trust user‐installed CAs (e.g. your dev cert) -->
+    </trust-anchors>
+  </domain-config>
+</network-security-config>

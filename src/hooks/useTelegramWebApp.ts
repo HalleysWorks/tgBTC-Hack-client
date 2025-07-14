@@ -1,28 +1,56 @@
-import { useEffect, useState } from 'react';
-import { useTonConnectUI, useTonWallet } from '@tonconnect/ui-react';
+import { useEffect, useState, useRef } from 'react';
+import TonConnect from '@tonconnect/sdk';
 
 export const useTelegramWebApp = () => {
-  const [tonConnectUI] = useTonConnectUI();
-  const tonWallet = useTonWallet();
+  // Initialize TonConnect instance without unsupported bridgeUrl in constructor
+  const connectorRef = useRef<TonConnect>(
+    new TonConnect({
+      manifestUrl: window.location.origin + '/tonconnect-manifest.json',
+    })
+  );
+  const [tonWallet, setTonWallet] = useState<any>(connectorRef.current.wallet);
   const [isConnecting, setIsConnecting] = useState(false);
 
   // Debug wallet connection
   console.log('useTelegramWebApp - wallet state:', tonWallet);
 
+  // Subscribe to status changes and attempt to restore session
   useEffect(() => {
-    const app = window.Telegram?.WebApp;
-    if (app) {
-      app.ready();
-      app.expand();
-    }
+    const connector = connectorRef.current;
+    // Listen for wallet connection/disconnection
+    const unsubscribe = connector.onStatusChange(
+      (wallet) => setTonWallet(wallet),
+      (error) => console.error('[TON_CONNECT_SDK_ERROR]', error)
+    );
+    // Restore previous session if any
+    connector
+      .restoreConnection()
+      .catch((err) => console.error('[TON_CONNECT_RESTORE_ERROR]', err));
+    return unsubscribe;
   }, []);
 
   const connectWallet = async () => {
     try {
       setIsConnecting(true);
       hapticFeedback('light');
-      await tonConnectUI.openModal();
-      // Success feedback will be handled by UI reactivity
+      // Choose bridge endpoint (use Netlify function proxy in production, local proxy in dev)
+      let bridgeUrl;
+      if (import.meta.env.DEV) {
+        bridgeUrl = '/dewallet-bridge';
+      } else if (window.location.hostname.endsWith('netlify.app')) {
+        bridgeUrl = '/.netlify/functions/bridge-proxy';
+      } else {
+        bridgeUrl = 'https://bridge.dewallet.pro/bridge';
+      }
+      connectorRef.current.connect(
+        [
+          {
+            bridgeUrl,
+            universalLink: window.location.origin,
+          },
+        ],
+        { openingDeadlineMS: 120000 }
+      );
     } catch (error) {
       console.error('Failed to connect wallet:', error);
       hapticFeedback('error');
@@ -39,7 +67,7 @@ export const useTelegramWebApp = () => {
         'Are you sure you want to disconnect your wallet?',
         async (confirmed) => {
           if (confirmed) {
-            await tonConnectUI.disconnect();
+            await connectorRef.current?.disconnect();
             hapticFeedback('success');
             showTelegramAlert('Wallet disconnected successfully!');
           }

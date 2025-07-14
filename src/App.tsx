@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { TonConnectUIProvider } from '@tonconnect/ui-react';
+import { TonConnectUIProvider, useTonConnectUI } from '@tonconnect/ui-react';
 import { Wallet, BarChart3, Home as HomeIcon } from 'lucide-react';
 
 import Header from './components/Header.tsx';
@@ -21,10 +21,21 @@ import { initializeTelegramWebApp } from './hooks/useTelegramWebApp.ts';
 
 type Tab = 'home' | 'lp' | 'dashboard' | 'metrics' | 'alerts' | 'settings';
 
+// Component to configure TonConnectUI options (e.g., custom bridge URL)
+function TonConnectConfigurator() {
+  const [, setOptions] = useTonConnectUI();
+  useEffect(() => {
+    // No custom bridgeUrl supported by TonConnectUiOptions, so leave options empty or set other supported options if needed
+    setOptions({});
+  }, [setOptions]);
+  return null;
+}
+
 function App() {
   const [activeTab, setActiveTab] = useState<Tab>('home');
 
-  const manifestUrl = '/tonconnect-manifest.json';
+  // Use absolute URL for manifest to ensure proper scheme and avoid CORS issues
+  const manifestUrl = window.location.origin + '/tonconnect-manifest.json';
 
   useEffect(() => {
     initializeTelegramWebApp();
@@ -34,6 +45,7 @@ function App() {
     <ThemeProvider>
       <Router>
         <TonConnectUIProvider manifestUrl={manifestUrl}>
+          <TonConnectConfigurator />
           <Routes>
             {/* Main app routes */}
             <Route
