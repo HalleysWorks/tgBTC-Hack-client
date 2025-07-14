@@ -17,7 +17,7 @@
       const script = document.createElement('script');
       script.type = 'module';
       script.textContent = `
-        import { Buffer } from '/node_modules/buffer/index.js';
+        import { Buffer } from 'https://cdn.jsdelivr.net/npm/buffer@6.0.3/+esm';
         window.Buffer = Buffer;
         globalThis.Buffer = Buffer;
       `;
