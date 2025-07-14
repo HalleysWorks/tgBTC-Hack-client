@@ -1,4 +1,2 @@
 /tonconnect-bridge/* https://walletbot.me/tonconnect-bridge/:splat 200
-/:splat   https://bridge.tonapi.io/bridge/:splat   200
 /*    /index.html   200
-/*    https://bridge.tonapi.io/bridge/:splat   200  
