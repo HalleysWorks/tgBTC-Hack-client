@@ -22,7 +22,7 @@ export default defineConfig({
     },
   },
   server: {
-    allowedHosts: ['6fbd9481f413.ngrok-free.app'],
+    // allowedHosts: ['https://825f0b1f8524.ngrok-free.app'],
     proxy: {
       // Proxy TON Connect bridge to avoid CORS issues in development
       '/tonconnect-bridge': {
