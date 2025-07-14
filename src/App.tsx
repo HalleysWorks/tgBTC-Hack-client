@@ -33,11 +33,7 @@ function App() {
   return (
     <ThemeProvider>
       <Router>
-        <TonConnectUIProvider
-          manifestUrl={manifestUrl}
-          // @ts-ignore: override default bridge URL to avoid CORS issues
-          connectorOptions={{ bridgeUrl: 'https://bridge.tonapi.io/bridge' }}
-        >
+        <TonConnectUIProvider manifestUrl={manifestUrl}>
           <Routes>
             {/* Main app routes */}
             <Route
