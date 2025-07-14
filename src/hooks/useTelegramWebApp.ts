@@ -3,8 +3,11 @@ import { useTonConnectUI, useTonWallet } from '@tonconnect/ui-react';
 
 export const useTelegramWebApp = () => {
   const [tonConnectUI] = useTonConnectUI();
-  const wallet = useTonWallet();
+  const tonWallet = useTonWallet();
   const [isConnecting, setIsConnecting] = useState(false);
+
+  // Debug wallet connection
+  console.log('useTelegramWebApp - wallet state:', tonWallet);
 
   useEffect(() => {
     const app = window.Telegram?.WebApp;
@@ -17,18 +20,15 @@ export const useTelegramWebApp = () => {
   const connectWallet = async () => {
     try {
       setIsConnecting(true);
-
-      // Show haptic feedback
       hapticFeedback('light');
-
-      // For TonKeeper specifically, you can set the preferred wallet
-      await tonConnectUI.openModal();
-
-      // Show success feedback when connected
-      if (wallet) {
-        hapticFeedback('success');
-        showTelegramAlert('Wallet connected successfully!');
+      // Use universal link for Telegram Mini App, modal for web
+      const isTelegram = Boolean(window.Telegram?.WebApp);
+      if (isTelegram) {
+        await tonConnectUI.connectWallet();
+      } else {
+        await tonConnectUI.openModal();
       }
+      // Success feedback will be handled by UI reactivity
     } catch (error) {
       console.error('Failed to connect wallet:', error);
       hapticFeedback('error');
@@ -41,7 +41,6 @@ export const useTelegramWebApp = () => {
   const disconnectWallet = async () => {
     try {
       hapticFeedback('light');
-
       showTelegramConfirm(
         'Are you sure you want to disconnect your wallet?',
         async (confirmed) => {
@@ -60,20 +59,18 @@ export const useTelegramWebApp = () => {
   };
 
   const getWalletInfo = () => {
-    if (!wallet) return null;
-
+    if (!tonWallet) return null;
     return {
-      address: wallet.account.address,
-      chain: wallet.account.chain,
-      walletName: wallet.device.appName,
-      walletVersion: wallet.device.appVersion,
-      platform: wallet.device.platform,
+      address: tonWallet.account.address,
+      chain: tonWallet.account.chain,
+      walletName: tonWallet.device.appName,
+      walletVersion: tonWallet.device.appVersion,
+      platform: tonWallet.device.platform,
     };
   };
 
   return {
     telegramApp: window.Telegram?.WebApp,
-    wallet,
     isConnecting,
     connectWallet,
     disconnectWallet,

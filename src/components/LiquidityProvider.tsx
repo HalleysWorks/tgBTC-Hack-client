@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTonWallet, TonConnectButton } from '@tonconnect/ui-react';
 import {
   Plus,
   Wallet,
@@ -7,7 +8,7 @@ import {
   Info,
   AlertCircle,
 } from 'lucide-react';
-import { useTelegramWebApp } from '../hooks/useTelegramWebApp';
+
 import { useTonContracts } from '../hooks/useTonContracts';
 
 const tokens = [
@@ -54,13 +55,11 @@ export default function LiquidityProvider() {
   const [lockPeriod, setLockPeriod] = useState(lockPeriods[0]);
   const [showLockOptions, setShowLockOptions] = useState(false);
 
-  const {
-    wallet,
-    isConnecting,
-    connectWallet,
-    disconnectWallet,
-    getWalletInfo,
-  } = useTelegramWebApp();
+  // Use TonConnect hooks directly for better reliability
+  const tonWallet = useTonWallet();
+
+  // Use tonWallet for wallet state
+  const isWalletConnected = !!tonWallet;
 
   const estimatedRewards = amount
     ? (
@@ -69,11 +68,26 @@ export default function LiquidityProvider() {
       ).toFixed(2)
     : '0';
 
-  const walletInfo = getWalletInfo();
+  const walletInfo = tonWallet
+    ? {
+        address: tonWallet.account.address,
+        chain: tonWallet.account.chain,
+        walletName: tonWallet.device.appName,
+        walletVersion: tonWallet.device.appVersion,
+        platform: tonWallet.device.platform,
+      }
+    : null;
+
+  // Debug wallet connection state
+  console.log('Wallet state:', {
+    tonWallet,
+    isWalletConnected,
+    walletInfo,
+  });
 
   // Example: handle add liquidity (placeholder, needs contract ABI)
   const handleAddLiquidity = async () => {
-    if (!client || !addresses || !wallet) return;
+    if (!client || !addresses || !tonWallet) return;
     // Example: use addresses.dedustPool or others as needed
     // TODO: Replace with actual contract call logic
     alert(
@@ -90,10 +104,15 @@ export default function LiquidityProvider() {
         <p className='text-gray-600 dark:text-gray-400 text-lg'>
           Deposit tokens to earn rewards from trading fees
         </p>
+        {/* Debug info */}
+        <div className='mt-2 text-xs text-gray-500'>
+          Debug: Wallet connected = {isWalletConnected ? 'YES' : 'NO'} |
+          TonConnect = {tonWallet ? 'YES' : 'NO'}
+        </div>
       </div>
 
       {/* Wallet Connection Status */}
-      {!wallet ? (
+      {!isWalletConnected ? (
         <div className='bg-gradient-to-r from-pink-500 to-purple-600 rounded-2xl p-8 text-center'>
           <div className='flex items-center justify-center mb-4'>
             <AlertCircle className='text-white mr-2' size={24} />
@@ -105,23 +124,9 @@ export default function LiquidityProvider() {
             Connect your TonKeeper wallet to start providing liquidity and
             earning rewards.
           </p>
-          <button
-            onClick={connectWallet}
-            disabled={isConnecting}
-            className='bg-white text-pink-600 px-8 py-3 rounded-xl font-semibold hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center mx-auto'
-          >
-            {isConnecting ? (
-              <>
-                <div className='animate-spin rounded-full h-5 w-5 border-b-2 border-pink-600 mr-2'></div>
-                Connecting...
-              </>
-            ) : (
-              <>
-                <Wallet className='mr-2' size={20} />
-                Connect TonKeeper
-              </>
-            )}
-          </button>
+          <div className='flex justify-center'>
+            <TonConnectButton className='!bg-white !text-pink-600 !px-8 !py-3 !rounded-xl !font-semibold hover:!bg-gray-50 transition-colors flex items-center justify-center' />
+          </div>
         </div>
       ) : (
         <div className='bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-gray-800'>
@@ -143,18 +148,14 @@ export default function LiquidityProvider() {
                 </p>
               </div>
             </div>
-            <button
-              onClick={disconnectWallet}
-              className='text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 text-sm font-medium'
-            >
-              Disconnect
-            </button>
+            {/* The TonConnectButton also provides disconnect functionality */}
+            <TonConnectButton className='!bg-red-100 !text-red-600 !rounded-xl !font-medium' />
           </div>
         </div>
       )}
 
       {/* Token Selection - Only show if wallet is connected */}
-      {wallet && (
+      {isWalletConnected && (
         <div className='bg-white dark:bg-gray-900 rounded-2xl p-8 shadow-sm border border-gray-200 dark:border-gray-800'>
           <h3 className='text-xl font-semibold text-gray-900 dark:text-white mb-6'>
             Select Token
@@ -203,7 +204,7 @@ export default function LiquidityProvider() {
       )}
 
       {/* Amount Input - Only show if wallet is connected */}
-      {wallet && (
+      {isWalletConnected && (
         <div className='bg-white dark:bg-gray-900 rounded-2xl p-8 shadow-sm border border-gray-200 dark:border-gray-800'>
           <h3 className='text-xl font-semibold text-gray-900 dark:text-white mb-6'>
             Deposit Amount
@@ -235,7 +236,7 @@ export default function LiquidityProvider() {
       )}
 
       {/* Lock Period Options - Only show if wallet is connected */}
-      {wallet && (
+      {isWalletConnected && (
         <div className='bg-white dark:bg-gray-900 rounded-2xl p-8 shadow-sm border border-gray-200 dark:border-gray-800'>
           <div className='flex items-center justify-between mb-6'>
             <h3 className='text-xl font-semibold text-gray-900 dark:text-white'>
@@ -288,7 +289,7 @@ export default function LiquidityProvider() {
       )}
 
       {/* Estimated Rewards - Only show if wallet is connected */}
-      {wallet && (
+      {isWalletConnected && (
         <div className='bg-gradient-to-br from-green-50 to-blue-50 dark:from-green-950/50 dark:to-blue-950/50 rounded-2xl p-8 border border-green-200 dark:border-green-800'>
           <h3 className='text-xl font-semibold text-gray-900 dark:text-white mb-4'>
             Estimated Rewards
@@ -303,7 +304,7 @@ export default function LiquidityProvider() {
       )}
 
       {/* Action Buttons - Only show if wallet is connected */}
-      {wallet && (
+      {isWalletConnected && (
         <div className='space-y-4'>
           <button
             className='w-full bg-gradient-to-r from-pink-500 to-purple-500 text-white py-6 rounded-2xl font-semibold hover:from-pink-600 hover:to-purple-600 transition-all duration-200 flex items-center justify-center shadow-lg hover:shadow-xl'

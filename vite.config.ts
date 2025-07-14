@@ -2,7 +2,6 @@ import { defineConfig } from 'vite';
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [tailwindcss(), react()],
   resolve: {
@@ -22,4 +21,7 @@ export default defineConfig({
       external: [],
     },
   },
+  // server: {
+  //   allowedHosts: ['6fbd9481f413.ngrok-free.app'],
+  // },
 });
