@@ -8,7 +8,7 @@ import {
   Plus,
   Wallet,
   TrendingUp,
-  Lock,
+  //   Lock,
   Info,
   AlertCircle,
 } from 'lucide-react';
@@ -18,7 +18,7 @@ import {
   VaultContract,
   DeDustPoolContract,
   parseTokenAmount,
-  formatTokenAmount,
+  //   formatTokenAmount,
 } from '../contractWrappers';
 
 // Token interface for pools
@@ -41,11 +41,11 @@ const initialTokens: PoolToken[] = [
   },
 ];
 
-const lockPeriods = [
-  { days: 7, multiplier: 1.2, label: '7 days' },
-  { days: 30, multiplier: 1.5, label: '30 days' },
-  { days: 90, multiplier: 2.0, label: '90 days' },
-];
+// const lockPeriods = [
+//   { days: 7, multiplier: 1.2, label: '7 days' },
+//   { days: 30, multiplier: 1.5, label: '30 days' },
+//   { days: 90, multiplier: 2.0, label: '90 days' },
+// ];
 
 export default function LiquidityProvider() {
   const { addresses, client } = useTonContracts();
@@ -54,8 +54,8 @@ export default function LiquidityProvider() {
     tokens[0] || null
   );
   const [amount, setAmount] = useState('');
-  const [lockPeriod, setLockPeriod] = useState(lockPeriods[0]);
-  const [showLockOptions, setShowLockOptions] = useState(false);
+  //   const [lockPeriod, setLockPeriod] = useState(lockPeriods[0]);
+  //   const [showLockOptions, setShowLockOptions] = useState(false);
   const [loading, setLoading] = useState(false);
 
   // Use TonConnect hooks directly for better reliability
@@ -65,13 +65,13 @@ export default function LiquidityProvider() {
   // Use tonWallet for wallet state
   const isWalletConnected = !!tonWallet;
 
-  const estimatedRewards =
-    amount && selectedToken
-      ? (
-          ((parseFloat(amount) * parseFloat(selectedToken.apy)) / 100) *
-          lockPeriod.multiplier
-        ).toFixed(2)
-      : '0';
+  //   const estimatedRewards =
+  //     amount && selectedToken
+  //       ? (
+  //           ((parseFloat(amount) * parseFloat(selectedToken.apy)) / 100) *
+  //           lockPeriod.multiplier
+  //         ).toFixed(2)
+  //       : '0';
 
   const walletInfo = tonWallet
     ? {

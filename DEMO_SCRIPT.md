@@ -1,28 +1,58 @@
-# tgBTC Liquidity Protocol - Hackathon Demo Video Script
+# tgBTC Liquidity Protocol - Short Demo Script
 
-## Video Setup & Equipment
+## Setup
 
-- **Duration:** 3-4 minutes
-- **Screens:** 3 screens side by side
-  - Left: Mobile with Telegram Mini App
-  - Center: TonKeeper Wallet
-  - Right: TonViewer Explorer
-- **Resolution:** 1080p recommended
-- **Audio:** Clear voiceover with background music (optional)
+- Duration: ~2 minutes
+- Screens: Mini App (left), TonKeeper (center), TonViewer (right)
 
----
+## Scenes
 
-## 🎬 SCENE 1: Introduction (0:00 - 0:30)
+1. Intro (0:00-0:10)
 
-**Screen Focus:** All three screens visible, Mini App prominent
+   - Show Mini App home
+   - Voice: "This is tgBTC Liquidity Protocol on TON."
 
-**Script:**
+2. Connect Wallet (0:10-0:25)
 
-> "Welcome to tgBTC Liquidity Protocol - a revolutionary DeFi solution built on TON blockchain for the hackathon. I'm about to show you how users can provide liquidity, earn rewards, and interact with real smart contracts deployed on TON testnet."
+   - Mini App: Tap Connect
+   - TonKeeper: Approve
+   - Mini App: Show address
+   - Voice: "Wallet connected."
 
-**Screen Actions:**
+3. Load Pool (0:25-0:40)
 
-- Show mini app homepage with $0.00 values (demonstrating real data)
+   - Mini App: Open Liquidity tab
+   - Show live APY
+   - Voice: "APY loaded from chain."
+
+4. Prepare Deposit (0:40-0:55)
+
+   - Enter 0.5 TON
+   - Show contract address
+   - Voice: "Ready to deposit 0.5 TON."
+
+5. Confirm (0:55-1:10)
+
+   - TonKeeper: Confirm txn
+   - Mini App: Show success
+   - Voice: "Transaction sent."
+
+6. Verify (1:10-1:25)
+
+   - Copy hash to TonViewer
+   - Show success status
+   - Voice: "On-chain verified."
+
+7. Dashboard (1:25-1:40)
+
+   - Mini App: Open Portfolio
+   - Show empty state
+   - Voice: "Clean dashboard ready."
+
+8. Closing (1:40-1:50)
+   - Quick montage of steps
+   - Voice: "Demo complete. Thank you."
+
 - Briefly flash the other two screens
 - Point to "Connect Wallet" button
 
