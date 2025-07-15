@@ -158,11 +158,10 @@ function Home({ setActiveTab }: { setActiveTab: (tab: Tab) => void }) {
             Total Value Locked
           </h3>
           <p className='text-4xl font-bold text-gray-900 dark:text-white mb-2'>
-            $2.4M
+            $0.00
           </p>
-          <p className='text-sm text-green-600 dark:text-green-400 flex items-center'>
-            <span className='mr-1'>↗</span>
-            12.5% this week
+          <p className='text-sm text-gray-500 dark:text-gray-400 mb-0'>
+            Connect your wallet to load data
           </p>
         </div>
 
@@ -171,11 +170,10 @@ function Home({ setActiveTab }: { setActiveTab: (tab: Tab) => void }) {
             Your Portfolio
           </h3>
           <p className='text-4xl font-bold text-gray-900 dark:text-white mb-2'>
-            $8,250
+            $0.00
           </p>
-          <p className='text-sm text-green-600 dark:text-green-400 flex items-center'>
-            <span className='mr-1'>↗</span>
-            3.2% APY
+          <p className='text-sm text-gray-500 dark:text-gray-400 mb-0'>
+            Connect your wallet to view portfolio
           </p>
         </div>
       </div>

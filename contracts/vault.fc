@@ -1,0 +1,138 @@
+#include "./stdlib.fc";
+
+;; ────────── Storage layout ──────────
+;; 0 uint64 : total TON balance (nanoTON)
+;; 1 uint64 : total tgBTC balance (nanoJetton)
+;; 2 addr   : admin
+;; 3 addr   : STON.fi pool
+;; 4 addr   : DeDust pool
+;; 5 addr   : Megaton pool
+;; 6 uint64 : totalShares
+;; 7 cell   : params (unused)
+
+;; ────────── Forward Declarations ──────────
+() handle_deposit(slice lp, int ton_amt, int btc_amt) impure;
+() handle_withdraw(slice lp, int req) impure;
+() handle_rebalance() impure;
+() send_pool(slice addr, int ton_amt, int btc_amt) impure;
+
+;; ────────── Main Entry Point ──────────
+() recv_internal(int msg_value, cell in_msg_full, slice in_body) impure {
+  if (in_body.slice_empty?()) {
+    ;; bare TON → single-sided deposit
+    slice hdr = in_msg_full.begin_parse();
+    hdr~load_uint(4);               ;; skip flags
+    slice sender = hdr~load_msg_addr();
+    handle_deposit(sender, msg_value, 0);
+    return ();
+  }
+  int op = in_body~load_uint(32);
+  slice sender = in_body~load_msg_addr();
+  if (op == 1) { ;; deposit TON + tgBTC
+    int ton   = in_body~load_uint(64);
+    int tgbtc = in_body~load_uint(64);
+    handle_deposit(sender, ton, tgbtc);
+    return ();
+  }
+  if (op == 2) { ;; withdraw
+    int shares = in_body~load_uint(64);
+    handle_withdraw(sender, shares);
+    return ();
+  }
+  if (op == 3) { ;; rebalance
+    throw_unless(74, msg_value >= 1000000000); ;; ≥0.1 TON gas
+    handle_rebalance();
+    return ();
+  }
+  throw(0xffff);
+}
+
+;; ────────── State Helpers ──────────
+(int, int, slice, slice, slice, slice, int) load_state() {
+  slice ds    = get_data().begin_parse();
+  int ton_bal = ds~load_uint(64);
+  int btc_bal = ds~load_uint(64);
+  slice admin = ds~load_msg_addr();
+  slice s1    = ds~load_msg_addr();
+  slice s2    = ds~load_msg_addr();
+  slice s3    = ds~load_msg_addr();
+  int shares  = ds~load_uint(64);
+  return (ton_bal, btc_bal, admin, s1, s2, s3, shares);
+}
+
+() save_state(int ton_bal, int btc_bal,
+              slice admin, slice s1, slice s2, slice s3,
+              int shares) impure {
+  builder b = begin_cell();
+  b.store_uint(ton_bal,64)
+   .store_uint(btc_bal,64)
+   .store_slice(admin)
+   .store_slice(s1)
+   .store_slice(s2)
+   .store_slice(s3)
+   .store_uint(shares,64)
+   .store_ref(begin_cell().end_cell()); ;; params
+  set_data(b.end_cell());
+}
+
+;; ────────── Core Logic ──────────
+() handle_deposit(slice lp, int ton_amt, int btc_amt) impure {
+  var (tb, bb, adm, p1, p2, p3, tot) = load_state();
+  int minted = (ton_amt + btc_amt) / 1000000000; ;; 1 share per nano-unit
+  save_state(tb + ton_amt, bb + btc_amt, adm, p1, p2, p3, tot + minted);
+}
+
+() handle_withdraw(slice lp, int req) impure {
+  var (tb, bb, adm, p1, p2, p3, tot) = load_state();
+  throw_unless(73, tot > 0);
+  int out_ton = (tb * req) / tot;
+  int out_btc = (bb * req) / tot;
+  save_state(tb - out_ton, bb - out_btc, adm, p1, p2, p3, tot - req);
+  ;; return TON to lp
+  send_raw_message(
+    begin_cell()
+      .store_uint(0x10,6)
+      .store_slice(lp)
+      .store_coins(out_ton)
+      .end_cell(),
+    64);
+}
+
+() handle_rebalance() impure {
+  ;; stub for demo: do nothing
+  return ();
+}
+
+() send_pool(slice addr, int ton_amt, int btc_amt) impure {
+  if ((ton_amt == 0) & (btc_amt == 0)) { return (); }
+  send_raw_message(
+    begin_cell()
+      .store_uint(0x10,6)
+      .store_slice(addr)
+      .store_coins(ton_amt)
+      .store_ref(
+        begin_cell()
+          .store_uint(10,32)  ;; op add_liquidity
+          .store_uint(0,64)
+          .store_coins(ton_amt)
+          .store_coins(btc_amt)
+          .end_cell())
+      .end_cell(),
+    64);
+}
+
+;; ────────── Getter for state balances ──────────
+;; Returns (total TON balance, total tgBTC balance as an int)
+;; ────────── Getter for state balances ──────────
+;; Returns (total TON, total tgBTC)
+[int, int] get_state_balances() method_id {
+  var (ton_bal, tgbtc_bal, _, _, _, _, _) = load_state();
+  return [ ton_bal, tgbtc_bal ];
+}
+
+
+
+(int) get_total_shares() method_id {
+  var (_,_,_,_,_,_,tot) = load_state();
+  return tot;
+}

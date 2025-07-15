@@ -1,35 +1,8 @@
 import { useState } from 'react';
 import { TrendingUp, Wallet, Clock, Unlock, Eye, EyeOff } from 'lucide-react';
 
-const portfolioData = [
-  {
-    token: 'tgBTC',
-    deposited: '0.125',
-    value: '$11,781.25',
-    allocation: 'DeDust: 60%, StonFi: 40%',
-    rewards: '$125.50',
-    lockExpiry: '2025-02-15',
-    isLocked: true,
-  },
-  {
-    token: 'TON',
-    deposited: '1,250',
-    value: '$6,775.00',
-    allocation: 'DeDust: 80%, StonFi: 20%',
-    rewards: '$89.25',
-    lockExpiry: null,
-    isLocked: false,
-  },
-  {
-    token: 'USDT',
-    deposited: '5,000',
-    value: '$5,000.00',
-    allocation: 'DeDust: 50%, StonFi: 50%',
-    rewards: '$45.80',
-    lockExpiry: '2025-01-20',
-    isLocked: true,
-  },
-];
+// Use actual wallet data; show no positions by default
+const portfolioData: any[] = [];
 
 export default function Dashboard() {
   const [showDetails, setShowDetails] = useState<{ [key: string]: boolean }>(
@@ -42,16 +15,6 @@ export default function Dashboard() {
       [token]: !prev[token],
     }));
   };
-
-  const totalValue = portfolioData.reduce(
-    (sum, item) =>
-      sum + parseFloat(item.value.replace('$', '').replace(',', '')),
-    0
-  );
-  const totalRewards = portfolioData.reduce(
-    (sum, item) => sum + parseFloat(item.rewards.replace('$', '')),
-    0
-  );
 
   return (
     <div className='p-6 max-w-6xl mx-auto space-y-8'>
@@ -71,7 +34,7 @@ export default function Dashboard() {
             Total Portfolio Value
           </h3>
           <p className='text-4xl font-bold text-gray-900 dark:text-white mb-2'>
-            ${totalValue.toLocaleString()}
+            $0.00
           </p>
           <p className='text-sm text-green-600 dark:text-green-400 flex items-center'>
             <TrendingUp size={16} className='mr-1' />
@@ -84,7 +47,7 @@ export default function Dashboard() {
             Total Rewards Earned
           </h3>
           <p className='text-4xl font-bold text-gray-900 dark:text-white mb-2'>
-            ${totalRewards.toFixed(2)}
+            $0.00
           </p>
           <p className='text-sm text-gray-600 dark:text-gray-400'>
             Across all positions
@@ -97,8 +60,13 @@ export default function Dashboard() {
         <h3 className='text-lg font-semibold text-gray-900 dark:text-white mb-4'>
           Your Positions
         </h3>
-        <div className='space-y-4'>
-          {portfolioData.map((position) => (
+        {portfolioData.length === 0 ? (
+          <p className='text-center text-gray-600 dark:text-gray-400 py-8'>
+            Connect your wallet to view portfolio positions.
+          </p>
+        ) : (
+          <div className='space-y-4'>
+            {portfolioData.map((position) => (
             <div
               key={position.token}
               className='border border-gray-200 dark:border-gray-700 rounded-lg p-4 bg-white dark:bg-gray-800'
@@ -200,7 +168,8 @@ export default function Dashboard() {
               )}
             </div>
           ))}
-        </div>
+          </div>
+        )}
       </div>
 
       {/* Quick Actions */}
