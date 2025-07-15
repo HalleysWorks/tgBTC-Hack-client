@@ -33,7 +33,9 @@ export class VaultContract {
   createDepositMessage(tonAmount: bigint, tgbtcAmount: bigint = 0n) {
     return beginCell()
       .storeUint(OP_VAULT_DEPOSIT, 32)
-      .storeAddress(Address.parse('EQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAM9c')) // placeholder sender
+      .storeAddress(
+        Address.parse('EQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAM9c')
+      ) // placeholder sender
       .storeUint(tonAmount, 64)
       .storeUint(tgbtcAmount, 64)
       .endCell();
@@ -43,15 +45,23 @@ export class VaultContract {
   createWithdrawMessage(shares: bigint) {
     return beginCell()
       .storeUint(OP_VAULT_WITHDRAW, 32)
-      .storeAddress(Address.parse('EQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAM9c')) // placeholder sender
+      .storeAddress(
+        Address.parse('EQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAM9c')
+      ) // placeholder sender
       .storeUint(shares, 64)
       .endCell();
   }
 
   // Get vault state balances
-  async getStateBalances(): Promise<{ tonBalance: bigint; tgbtcBalance: bigint }> {
+  async getStateBalances(): Promise<{
+    tonBalance: bigint;
+    tgbtcBalance: bigint;
+  }> {
     try {
-      const result = await this.client.runMethod(this.address, 'get_state_balances');
+      const result = await this.client.runMethod(
+        this.address,
+        'get_state_balances'
+      );
       const stack = result.stack;
       return {
         tonBalance: stack.readBigNumber(),
@@ -66,7 +76,10 @@ export class VaultContract {
   // Get total shares
   async getTotalShares(): Promise<bigint> {
     try {
-      const result = await this.client.runMethod(this.address, 'get_total_shares');
+      const result = await this.client.runMethod(
+        this.address,
+        'get_total_shares'
+      );
       return result.stack.readBigNumber();
     } catch (error) {
       console.warn('Failed to get total shares:', error);
@@ -92,7 +105,9 @@ export class DeDustPoolContract {
   createAddLiquidityMessage(tonAmount: bigint, tgbtcAmount: bigint = 0n) {
     return beginCell()
       .storeUint(OP_DEDUST_ADD_LIQUIDITY, 32)
-      .storeAddress(Address.parse('EQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAM9c')) // placeholder sender
+      .storeAddress(
+        Address.parse('EQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAM9c')
+      ) // placeholder sender
       .storeUint(tonAmount, 64)
       .storeUint(tgbtcAmount, 64)
       .endCell();
@@ -102,7 +117,9 @@ export class DeDustPoolContract {
   createRemoveLiquidityMessage(lpTokens: bigint) {
     return beginCell()
       .storeUint(OP_DEDUST_REMOVE_LIQUIDITY, 32)
-      .storeAddress(Address.parse('EQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAM9c')) // placeholder sender
+      .storeAddress(
+        Address.parse('EQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAM9c')
+      ) // placeholder sender
       .storeUint(lpTokens, 64)
       .endCell();
   }
@@ -161,7 +178,10 @@ export class JettonWalletContract {
     master: Address;
   }> {
     try {
-      const result = await this.client.runMethod(this.address, 'get_wallet_data');
+      const result = await this.client.runMethod(
+        this.address,
+        'get_wallet_data'
+      );
       const stack = result.stack;
       return {
         balance: stack.readBigNumber(),
@@ -172,8 +192,12 @@ export class JettonWalletContract {
       console.warn('Failed to get wallet data:', error);
       return {
         balance: 0n,
-        owner: Address.parse('EQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAM9c'),
-        master: Address.parse('EQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAM9c'),
+        owner: Address.parse(
+          'EQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAM9c'
+        ),
+        master: Address.parse(
+          'EQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAM9c'
+        ),
       };
     }
   }
@@ -198,18 +222,21 @@ export function createTonConnectTransaction(
 }
 
 // Helper to format amounts
-export function formatTokenAmount(amount: bigint, decimals: number = 9): string {
+export function formatTokenAmount(
+  amount: bigint,
+  decimals: number = 9
+): string {
   const divisor = BigInt(10 ** decimals);
   const quotient = amount / divisor;
   const remainder = amount % divisor;
-  
+
   if (remainder === 0n) {
     return quotient.toString();
   }
-  
+
   const remainderStr = remainder.toString().padStart(decimals, '0');
   const trimmed = remainderStr.replace(/0+$/, '');
-  
+
   return trimmed ? `${quotient}.${trimmed}` : quotient.toString();
 }
 
@@ -218,6 +245,6 @@ export function parseTokenAmount(amount: string, decimals: number = 9): bigint {
   const parts = amount.split('.');
   const whole = parts[0] || '0';
   const fractional = (parts[1] || '').padEnd(decimals, '0').slice(0, decimals);
-  
+
   return BigInt(whole) * BigInt(10 ** decimals) + BigInt(fractional);
 }

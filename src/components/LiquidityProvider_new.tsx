@@ -4,13 +4,21 @@ import {
   TonConnectButton,
   useTonConnectUI,
 } from '@tonconnect/ui-react';
-import { Plus, Wallet, TrendingUp, Info, AlertCircle } from 'lucide-react';
+import {
+  Plus,
+  Wallet,
+  TrendingUp,
+  Lock,
+  Info,
+  AlertCircle,
+} from 'lucide-react';
 
 import { useTonContracts } from '../hooks/useTonContracts';
 import {
   VaultContract,
   DeDustPoolContract,
   parseTokenAmount,
+  formatTokenAmount,
 } from '../contractWrappers';
 
 // Token interface for pools
@@ -33,6 +41,12 @@ const initialTokens: PoolToken[] = [
   },
 ];
 
+const lockPeriods = [
+  { days: 7, multiplier: 1.2, label: '7 days' },
+  { days: 30, multiplier: 1.5, label: '30 days' },
+  { days: 90, multiplier: 2.0, label: '90 days' },
+];
+
 export default function LiquidityProvider() {
   const { addresses, client } = useTonContracts();
   const [tokens, setTokens] = useState<PoolToken[]>(initialTokens);
@@ -40,6 +54,8 @@ export default function LiquidityProvider() {
     tokens[0] || null
   );
   const [amount, setAmount] = useState('');
+  const [lockPeriod, setLockPeriod] = useState(lockPeriods[0]);
+  const [showLockOptions, setShowLockOptions] = useState(false);
   const [loading, setLoading] = useState(false);
 
   // Use TonConnect hooks directly for better reliability
@@ -48,6 +64,14 @@ export default function LiquidityProvider() {
 
   // Use tonWallet for wallet state
   const isWalletConnected = !!tonWallet;
+
+  const estimatedRewards =
+    amount && selectedToken
+      ? (
+          ((parseFloat(amount) * parseFloat(selectedToken.apy)) / 100) *
+          lockPeriod.multiplier
+        ).toFixed(2)
+      : '0';
 
   const walletInfo = tonWallet
     ? {

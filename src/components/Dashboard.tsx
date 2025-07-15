@@ -67,107 +67,107 @@ export default function Dashboard() {
         ) : (
           <div className='space-y-4'>
             {portfolioData.map((position) => (
-            <div
-              key={position.token}
-              className='border border-gray-200 dark:border-gray-700 rounded-lg p-4 bg-white dark:bg-gray-800'
-            >
-              <div className='flex items-center justify-between'>
-                <div className='flex items-center'>
-                  <div className='w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full mr-3'></div>
-                  <div>
-                    <div className='font-semibold text-gray-900 dark:text-white flex items-center'>
-                      {position.token}
-                      {position.isLocked && (
-                        <div className='ml-2 px-2 py-1 bg-purple-100 dark:bg-purple-950/50 text-purple-800 dark:text-purple-200 text-xs rounded-full flex items-center'>
-                          <Clock size={12} className='mr-1' />
-                          Locked
-                        </div>
-                      )}
+              <div
+                key={position.token}
+                className='border border-gray-200 dark:border-gray-700 rounded-lg p-4 bg-white dark:bg-gray-800'
+              >
+                <div className='flex items-center justify-between'>
+                  <div className='flex items-center'>
+                    <div className='w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full mr-3'></div>
+                    <div>
+                      <div className='font-semibold text-gray-900 dark:text-white flex items-center'>
+                        {position.token}
+                        {position.isLocked && (
+                          <div className='ml-2 px-2 py-1 bg-purple-100 dark:bg-purple-950/50 text-purple-800 dark:text-purple-200 text-xs rounded-full flex items-center'>
+                            <Clock size={12} className='mr-1' />
+                            Locked
+                          </div>
+                        )}
+                      </div>
+                      <div className='text-sm text-gray-600 dark:text-gray-400'>
+                        {position.deposited} tokens
+                      </div>
                     </div>
-                    <div className='text-sm text-gray-600 dark:text-gray-400'>
-                      {position.deposited} tokens
+                  </div>
+                  <div className='text-right'>
+                    <div className='font-semibold text-gray-900 dark:text-white'>
+                      {position.value}
+                    </div>
+                    <div className='text-sm text-green-600 dark:text-green-400'>
+                      +{position.rewards} rewards
                     </div>
                   </div>
                 </div>
-                <div className='text-right'>
-                  <div className='font-semibold text-gray-900 dark:text-white'>
-                    {position.value}
-                  </div>
-                  <div className='text-sm text-green-600 dark:text-green-400'>
-                    +{position.rewards} rewards
-                  </div>
-                </div>
-              </div>
 
-              <div className='mt-3 flex justify-between items-center'>
-                <button
-                  onClick={() => toggleDetails(position.token)}
-                  className='text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 text-sm flex items-center'
-                >
-                  {showDetails[position.token] ? (
-                    <EyeOff size={16} />
-                  ) : (
-                    <Eye size={16} />
-                  )}
-                  <span className='ml-1'>
-                    {showDetails[position.token] ? 'Hide' : 'Show'} Details
-                  </span>
-                </button>
-                <div className='flex space-x-2'>
-                  <button className='px-3 py-1 bg-blue-100 dark:bg-blue-950/50 text-blue-800 dark:text-blue-200 text-sm rounded-full hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-colors'>
-                    Add More
+                <div className='mt-3 flex justify-between items-center'>
+                  <button
+                    onClick={() => toggleDetails(position.token)}
+                    className='text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 text-sm flex items-center'
+                  >
+                    {showDetails[position.token] ? (
+                      <EyeOff size={16} />
+                    ) : (
+                      <Eye size={16} />
+                    )}
+                    <span className='ml-1'>
+                      {showDetails[position.token] ? 'Hide' : 'Show'} Details
+                    </span>
                   </button>
-                  <button className='px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 text-sm rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors'>
-                    Withdraw
-                  </button>
+                  <div className='flex space-x-2'>
+                    <button className='px-3 py-1 bg-blue-100 dark:bg-blue-950/50 text-blue-800 dark:text-blue-200 text-sm rounded-full hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-colors'>
+                      Add More
+                    </button>
+                    <button className='px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 text-sm rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors'>
+                      Withdraw
+                    </button>
+                  </div>
                 </div>
-              </div>
 
-              {showDetails[position.token] && (
-                <div className='mt-4 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg'>
-                  <div className='space-y-2 text-sm'>
-                    <div className='flex justify-between'>
-                      <span className='text-gray-600 dark:text-gray-400'>
-                        Allocation:
-                      </span>
-                      <span className='text-gray-900 dark:text-white'>
-                        {position.allocation}
-                      </span>
-                    </div>
-                    <div className='flex justify-between'>
-                      <span className='text-gray-600 dark:text-gray-400'>
-                        APY:
-                      </span>
-                      <span className='text-green-600 dark:text-green-400 font-medium'>
-                        8.5%
-                      </span>
-                    </div>
-                    {position.isLocked && position.lockExpiry && (
+                {showDetails[position.token] && (
+                  <div className='mt-4 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg'>
+                    <div className='space-y-2 text-sm'>
                       <div className='flex justify-between'>
                         <span className='text-gray-600 dark:text-gray-400'>
-                          Lock Expires:
+                          Allocation:
                         </span>
-                        <span className='text-purple-600 dark:text-purple-400 font-medium'>
-                          {position.lockExpiry}
+                        <span className='text-gray-900 dark:text-white'>
+                          {position.allocation}
                         </span>
                       </div>
-                    )}
-                    <div className='flex justify-between'>
-                      <span className='text-gray-600 dark:text-gray-400'>
-                        Daily Rewards:
-                      </span>
-                      <span className='text-green-600 dark:text-green-400 font-medium'>
-                        $
-                        {(
-                          parseFloat(position.rewards.replace('$', '')) / 30
-                        ).toFixed(2)}
-                      </span>
+                      <div className='flex justify-between'>
+                        <span className='text-gray-600 dark:text-gray-400'>
+                          APY:
+                        </span>
+                        <span className='text-green-600 dark:text-green-400 font-medium'>
+                          8.5%
+                        </span>
+                      </div>
+                      {position.isLocked && position.lockExpiry && (
+                        <div className='flex justify-between'>
+                          <span className='text-gray-600 dark:text-gray-400'>
+                            Lock Expires:
+                          </span>
+                          <span className='text-purple-600 dark:text-purple-400 font-medium'>
+                            {position.lockExpiry}
+                          </span>
+                        </div>
+                      )}
+                      <div className='flex justify-between'>
+                        <span className='text-gray-600 dark:text-gray-400'>
+                          Daily Rewards:
+                        </span>
+                        <span className='text-green-600 dark:text-green-400 font-medium'>
+                          $
+                          {(
+                            parseFloat(position.rewards.replace('$', '')) / 30
+                          ).toFixed(2)}
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
-              )}
-            </div>
-          ))}
+                )}
+              </div>
+            ))}
           </div>
         )}
       </div>
